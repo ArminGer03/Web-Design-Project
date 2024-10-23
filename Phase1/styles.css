@@ -1,0 +1,144 @@
+:root {
+    --glass: rgba(200, 200, 200, 0.05);
+    --glass-shadow: rgba(173, 215, 230,0.7);
+}
+
+.lightmode {
+    background-image: url("assets/backgrounds/lightmode-background.jpg");
+    --glass: rgba(100, 100, 100, 0.1);
+    --glass-shadow: rgba(23, 65, 80,0.7);
+}
+
+body {
+    background-image: url("assets/backgrounds/darkmode-background.jpg");
+    margin: 0;
+}
+
+main {
+    width: max(300px, 100%);
+    height: max(600px, 100svh);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    padding:min(15px, 2%);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 25px;
+    box-shadow: 3px 7px var(--glass-shadow);
+    background-color: var(--glass);
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+.glass h2, .box h2 {
+    font-size: 2.8em;
+    text-align: center;
+}
+
+.input-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+    padding: 2% 5%;
+    border: 3px solid rgba(230, 230, 230, 0.5);
+    border-radius: 5px;
+    margin: 5%;
+    background-color: rgba(200, 200, 200, 0.5);
+    font-size: 1.2em;
+}
+
+.input-box * {
+    font: 1em sans-serif;
+    padding: 0;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 0 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.radio-in{
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2% 10%;
+}
+
+.radio-in input {
+    width: 15px;
+}
+ 
+.auth-contaier {
+    width: clamp(250px, 80%, 450px);
+    height: 80%
+}
+
+.auth-contaier form a {
+    color: white;
+    font-size: 1em;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+.auth-contaier form button {
+    position: absolute;
+    bottom: 8%;
+    left: 0;
+    right: 0;
+    display: block;
+    width: 60%;
+    border-radius: 1.2em;
+    border: none;
+    box-shadow: 0px 0.5svh rgba(9,90,121,0.8);
+    margin: auto;
+    font-size: 1.2em;
+    line-height: 2.4em;
+    color: white;
+    background: linear-gradient(135deg, rgba(9,9,121,0.8) -50%, rgba(0,212,255,0.8) 150%);
+    transition: 0.3s ease-out;
+}
+
+.auth-contaier form button:hover {
+    background: linear-gradient(135deg, rgba(9,9,121,1) -50%, rgba(0,212,255,1) 150%);
+    bottom: 8.5%;
+    box-shadow: 0px 1.1svh rgba(9,90,121,0.8);
+}
+
+#theme-switch {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 4px var(--glass-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transition: 0.3s ease-out;
+}
+
+#theme-switch:hover {
+    bottom: 22px;
+    box-shadow: 0px 7px var(--glass-shadow);
+}
+
+#theme-switch svg:first-child {
+    display: none;
+}
+
+.lightmode #theme-switch svg:first-child {
+    display: block;
+}
+
+.lightmode #theme-switch svg:last-child {
+    display: none;
+}
