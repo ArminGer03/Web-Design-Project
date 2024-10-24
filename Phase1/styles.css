@@ -13,6 +13,7 @@
     --button-text-color: white;
     --question-text-color: white;
     --correct-answer-color: #28a745;
+    --incorrect-answer-color: red;
     --question-details-color: #ccc;
     --category-title-color: white;
     --category-description-color: #ccc;
@@ -29,10 +30,12 @@
     --button-text-color: white;
     --question-text-color: black;
     --correct-answer-color: #155724;
+    --incorrect-answer-color: red;
     --question-details-color: #333;
     --category-title-color: black;
     --category-description-color: #333;
 }
+
 
 body {
     background-image: url("assets/backgrounds/darkmode-background.jpg");
@@ -42,6 +45,7 @@ body {
     overflow-x: hidden;
     color: var(--text-color);
 }
+
 
 main {
     width: 100%;
@@ -439,6 +443,12 @@ button:hover {
     color: var(--correct-answer-color);
 }
 
+.incorrect-answer {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--incorrect-answer-color);
+}
+
 .question-details {
     font-size: 0.9em;
     color: var(--question-details-color);
@@ -518,4 +528,35 @@ button:hover {
     font-size: 1.1em;
     margin-top: 10px;
     color: var(--category-description-color);
+}
+
+.leaderboard {
+    width: 50%;
+    text-align: center;
+    align-self: center;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.leaderboard th, .leaderboard td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.leaderboard th {
+    background-color: #f2f2f2;
+}
+
+/* Styling for the top 3 positions */
+.first {
+    background-color: #c6a906; /* Gold */
+}
+
+.second {
+    background-color: #8c8c8c; /* Silver */
+}
+
+.third {
+    background-color: #cd7f32; /* Bronze */
 }
