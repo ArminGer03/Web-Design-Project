@@ -1,7 +1,5 @@
 /* Ensure consistent box-sizing */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -185,4 +183,76 @@ button:hover {
     .input-box label {
         font-size: 0.9em;
     }
+
+    .radio-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .radio-option {
+        margin-bottom: 10px;
+    }
+}
+
+
+/* Styles for the radio buttons */
+.input-box.radio-in {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-box.radio-in > label {
+    font-size: 1.1em;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.radio-options {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 1em;
+    color: white;
+}
+
+.radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-option .radio-custom {
+    position: relative;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: transparent;
+    margin-right: 8px;
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom {
+    background-color: white;
+}
+
+.radio-option input[type="radio"]:focus + .radio-custom {
+    outline: 2px solid #00d4ff;
+}
+
+.radio-option:hover .radio-custom {
+    border-color: #00d4ff;
+}
+
+.radio-option span.radio-custom,
+.radio-option input[type="radio"] {
+    flex-shrink: 0;
 }
