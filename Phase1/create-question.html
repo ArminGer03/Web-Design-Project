@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SoalPich</title>
+        <link rel="icon" href="assets/icons/icon.ico" type="image/icon type">
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript" src="scripts/darkmode.js" defer></script>
+    </head>
+<body>
+    <main>
+        <section class="glass form-container">
+            <h2>Create a New Question</h2>
+            <form>
+                <!-- Question Input -->
+                <div class="input-box">
+                    <label for="question">Question</label>
+                    <input type="text" name="question" id="question" required>
+                </div>
+
+                <!-- Answer Options -->
+                <div class="input-box">
+                    <label for="option1">Option 1</label>
+                    <input type="text" name="option1" id="option1" required>
+                </div>
+
+                <div class="input-box">
+                    <label for="option2">Option 2</label>
+                    <input type="text" name="option2" id="option2" required>
+                </div>
+
+                <div class="input-box">
+                    <label for="option3">Option 3</label>
+                    <input type="text" name="option3" id="option3" required>
+                </div>
+
+                <div class="input-box">
+                    <label for="option4">Option 4</label>
+                    <input type="text" name="option4" id="option4" required>
+                </div>
+
+                <!-- Correct Option Selection -->
+                <div class="input-box">
+                    <label for="correct-option">Correct Option</label>
+                    <select name="correct-option" id="correct-option" required>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                    </select>
+                </div>
+
+                <!-- Difficulty Level -->
+                <div class="input-box">
+                    <label for="difficulty">Difficulty</label>
+                    <select name="difficulty" id="difficulty" required>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="input-box">
+                    <label for="category">Category</label>
+                    <select name="category" id="category" required>
+                        <option value="general">General Knowledge</option>
+                        <option value="history">History</option>
+                        <option value="science">Science</option>
+                        <!-- Add more categories as needed -->
+                    </select>
+                </div>
+
+                <!-- Relevant Questions -->
+                <div class="input-box">
+                    <label for="relevant-questions">Relevant Questions (Optional)</label>
+                    <input type="text" name="relevant-questions" id="relevant-questions" placeholder="Enter related question IDs (comma-separated)">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit">Create Question</button>
+            </form>
+
+            <!-- Back Button -->
+            <a href="questions-management.html" class="dashboard-link">
+                <button>Back to Questions Management</button>
+            </a>
+        </section>
+    </main>
+    <button id="theme-switch" class="glass">
+        <!-- Dark Mode SVG Icons -->
+    </button>
+</body>
+</html>
