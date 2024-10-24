@@ -6,12 +6,28 @@
 :root {
     --glass: rgba(200, 200, 200, 0.05);
     --glass-shadow: rgba(173, 215, 230, 0.7);
+    --text-color: white;
+    --label-color: white;
+    --input-text-color: black;
+    --placeholder-color: #666;
+    --button-text-color: white;
+    --question-text-color: white;
+    --correct-answer-color: #28a745;
+    --question-details-color: #ccc;
 }
 
 .lightmode {
     background-image: url("assets/backgrounds/lightmode-background.jpg");
     --glass: rgba(100, 100, 100, 0.1);
     --glass-shadow: rgba(23, 65, 80, 0.7);
+    --text-color: black;
+    --label-color: black;
+    --input-text-color: black;
+    --placeholder-color: #999;
+    --button-text-color: white;
+    --question-text-color: black;
+    --correct-answer-color: #155724;
+    --question-details-color: #333;
 }
 
 body {
@@ -19,8 +35,8 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    /* Allow scrolling if content overflows */
     overflow-x: hidden;
+    color: var(--text-color);
 }
 
 main {
@@ -32,13 +48,13 @@ main {
 }
 
 .glass {
-    padding: 40px; /* Increased padding for more space */
+    padding: 40px;
     border: 3px solid rgba(255, 255, 255, 0.5);
     border-radius: 25px;
     box-shadow: 3px 7px var(--glass-shadow);
     background-color: var(--glass);
     backdrop-filter: blur(5px);
-    color: white;
+    color: var(--text-color);
     max-width: 600px;
     width: 90%;
     margin: 20px;
@@ -56,14 +72,14 @@ main {
 
 .input-box {
     width: 100%;
-    margin-bottom: 20px; /* Space between input fields */
+    margin-bottom: 20px;
 }
 
 .input-box label {
     display: block;
     margin-bottom: 8px;
     font-size: 1.1em;
-    color: white;
+    color: var(--label-color);
 }
 
 .input-box input,
@@ -74,17 +90,18 @@ main {
     border: none;
     background-color: rgba(255, 255, 255, 0.9);
     font-size: 1em;
+    color: var(--input-text-color);
 }
 
 .input-box input::placeholder {
-    color: #666;
+    color: var(--placeholder-color);
 }
 
 button {
     width: 100%;
     padding: 15px;
     font-size: 1.1em;
-    color: white;
+    color: var(--button-text-color);
     background: linear-gradient(135deg, rgba(9, 9, 121, 0.8), rgba(0, 212, 255, 0.8));
     border: none;
     border-radius: 5px;
@@ -107,6 +124,7 @@ button:hover {
 .dashboard-link button {
     background-color: #f03a47;
     transition: background-color 0.3s ease, transform 0.2s;
+    color: var(--button-text-color);
 }
 
 .dashboard-link button:hover {
@@ -164,6 +182,23 @@ button:hover {
     .input-box label {
         font-size: 1em;
     }
+
+    .question-header h3 {
+        font-size: 1.2em;
+    }
+
+    .question-actions button {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+
+    .question-text {
+        font-size: 1em;
+    }
+
+    .questions-container {
+        padding: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -192,8 +227,24 @@ button:hover {
     .radio-option {
         margin-bottom: 10px;
     }
-}
 
+    .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .question-actions {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .question-actions button {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+}
 
 /* Styles for the radio buttons */
 .input-box.radio-in {
@@ -204,7 +255,7 @@ button:hover {
 
 .input-box.radio-in > label {
     font-size: 1.1em;
-    color: white;
+    color: var(--label-color);
     margin-bottom: 10px;
 }
 
@@ -220,7 +271,7 @@ button:hover {
     cursor: pointer;
     position: relative;
     font-size: 1em;
-    color: white;
+    color: var(--text-color);
 }
 
 .radio-option input[type="radio"] {
@@ -235,13 +286,13 @@ button:hover {
     height: 18px;
     width: 18px;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid var(--text-color);
     background-color: transparent;
     margin-right: 8px;
 }
 
 .radio-option input[type="radio"]:checked + .radio-custom {
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .radio-option input[type="radio"]:focus + .radio-custom {
@@ -255,4 +306,96 @@ button:hover {
 .radio-option span.radio-custom,
 .radio-option input[type="radio"] {
     flex-shrink: 0;
+}
+
+.questions-container {
+    width: clamp(300px, 80%, 1000px);
+    padding: 40px;
+    margin: 20px auto;
+}
+
+.questions-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.question-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.question-actions button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    font-size: 1em;
+    color: var(--button-text-color);
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.question-actions .delete-btn {
+    background-color: #dc3545;
+}
+
+.question-actions button:hover {
+    background-color: #0056b3;
+}
+
+.question-actions .delete-btn:hover {
+    background-color: #c82333;
+}
+
+.question-text {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: var(--question-text-color);
+}
+
+.options-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.options-list li {
+    margin-bottom: 5px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.correct-answer {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--correct-answer-color);
+}
+
+.question-details {
+    font-size: 0.9em;
+    color: var(--question-details-color);
 }
