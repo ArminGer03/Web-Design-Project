@@ -142,3 +142,33 @@ main {
 .lightmode #theme-switch svg:last-child {
     display: none;
 }
+
+.dashboard-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.dashboard-link {
+    width: 60%;  /* Ensures the link behaves as a block and is the same width as the button */
+    text-align: center;  /* Centers the button within the link */
+}
+
+.dashboard-link button {
+    width: 100%;  /* Makes the button fill the entire width of the link */
+    border-radius: 1.2em;
+    border: none;
+    box-shadow: 0px 0.5svh rgba(9,90,121,0.8);
+    font-size: 1.2em;
+    line-height: 2.4em;
+    color: white;
+    background: linear-gradient(135deg, rgba(9,9,121,0.8) -50%, rgba(0,212,255,0.8) 150%);
+    transition: 0.3s ease-out;
+}
+
+.dashboard-link button:hover {
+    background: linear-gradient(135deg, rgba(9,9,121,1) -50%, rgba(0,212,255,1) 150%);
+    box-shadow: 0px 1.1svh rgba(9,90,121,0.8);
+}
