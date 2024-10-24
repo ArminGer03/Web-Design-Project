@@ -230,6 +230,20 @@ button:hover {
     .categories-container {
         padding: 20px;
     }
+
+    .leaderboard th,
+    .leaderboard td {
+        padding: 10px 8px;
+        font-size: 0.9em;
+    }
+
+    .leaderboard-container {
+        padding: 30px;
+    }
+
+    .leaderboard-container h2 {
+        font-size: 1.8em;
+    }
 }
 
 @media (max-width: 480px) {
@@ -291,6 +305,20 @@ button:hover {
     .category-actions button {
         margin-left: 0;
         margin-right: 10px;
+    }
+
+    .leaderboard th,
+    .leaderboard td {
+        padding: 8px 5px;
+        font-size: 0.8em;
+    }
+
+    .leaderboard-container {
+        padding: 20px;
+    }
+
+    .leaderboard-container h2 {
+        font-size: 1.5em;
     }
 }
 
@@ -530,33 +558,61 @@ button:hover {
     color: var(--category-description-color);
 }
 
-.leaderboard {
-    width: 50%;
-    text-align: center;
-    align-self: center;
-    margin: 0 auto;
-    border-collapse: collapse;
+.leaderboard-container {
+    width: clamp(300px, 80%, 1000px);
+    padding: 40px;
+    margin: 20px auto;
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
 }
 
-.leaderboard th, .leaderboard td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.leaderboard-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+/* Table Styles */
+.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.leaderboard th,
+.leaderboard td {
+    padding: 12px 15px;
+    text-align: center;
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .leaderboard th {
-    background-color: #f2f2f2;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+    font-size: 1em;
 }
 
-/* Styling for the top 3 positions */
-.first {
-    background-color: #c6a906; /* Gold */
+.leaderboard tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.second {
-    background-color: #8c8c8c; /* Silver */
+.leaderboard tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.third {
-    background-color: #cd7f32; /* Bronze */
+/* Specific Classes for Rank Styles */
+.leaderboard tbody tr.first td {
+    font-weight: bold;
+    color: gold;
+}
+
+.leaderboard tbody tr.second td {
+    font-weight: bold;
+    color: silver;
+}
+
+.leaderboard tbody tr.third td {
+    font-weight: bold;
+    color: #cd7f32; /* Bronze color */
 }
