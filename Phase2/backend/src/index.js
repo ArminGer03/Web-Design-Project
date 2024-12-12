@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('../config/db');
+const questionRoutes = require('../routes/questions');
 const authRoutes = require('../routes/auth');
 require('dotenv').config();
 
@@ -24,6 +25,9 @@ app.use('/api/auth', authRoutes);
 app.get('/api', (req, res) => {
     res.json({ message: 'Hello from the backend!' });
 });
+
+// Questions
+app.use('/api/questions', questionRoutes);
 
 // Serve static assets if in production
 const path = require('path');
