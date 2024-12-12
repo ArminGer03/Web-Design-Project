@@ -9,6 +9,9 @@ import CreateQuestion from './components/CreateQuestion';
 import ViewQuestions from './components/ViewQuestions';
 import EditQuestion from './components/EditQuestion';
 import CategoriesManagement from './components/CategoriesManagement';
+import CreateCategory from './components/CreateCategory';
+import ViewCategories from './components/ViewCategories';
+import EditCategory from './components/EditCategory';
 import Leaderboard from './components/Leaderboard';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -73,6 +76,24 @@ function App() {
                                 <ProtectedRoute>
                                     <CategoriesManagement />
                                 </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/create-category"
+                            element={
+                                <CreateCategory />
+                            }
+                        />
+                        <Route
+                            path="/view-categories"
+                            element={
+                                <ViewCategories />
+                            }
+                        />
+                        <Route
+                            path="/edit-category/:id"
+                            element={
+                                <EditCategory />
                             }
                         />
                         <Route

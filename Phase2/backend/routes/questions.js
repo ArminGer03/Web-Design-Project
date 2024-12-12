@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 // @access  Public
 router.get('/', async (req, res) => {
     try {
-        const questions = awaitQuestion.find()
+        const questions = await Question.find()
                     .populate('category', 'name description') 
                     .sort({ createdAt: -1 });       
         res.json(questions);
