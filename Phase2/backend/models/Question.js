@@ -1,3 +1,5 @@
+// backend/models/Question.js
+
 const mongoose = require('mongoose');
 
 const QuestionSchema = new mongoose.Schema(
@@ -24,9 +26,9 @@ const QuestionSchema = new mongoose.Schema(
             enum: ['easy', 'medium', 'hard'],
         },
         category: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
             required: true,
-            enum: ['general', 'history', 'science'],
         },
         relevantQuestions: [
             {

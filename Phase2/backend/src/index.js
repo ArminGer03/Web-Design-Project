@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('../config/db');
 const questionRoutes = require('../routes/questions');
+const categoryRoutes = require('../routes/categories');
 const authRoutes = require('../routes/auth');
 require('dotenv').config();
 
@@ -28,6 +29,9 @@ app.get('/api', (req, res) => {
 
 // Questions
 app.use('/api/questions', questionRoutes);
+
+// Category
+app.use('/api/categories', categoryRoutes);
 
 // Serve static assets if in production
 const path = require('path');
