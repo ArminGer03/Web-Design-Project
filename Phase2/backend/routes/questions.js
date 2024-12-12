@@ -1,5 +1,3 @@
-// backend/routes/questions.js
-
 const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
@@ -38,12 +36,12 @@ router.post('/', async (req, res) => {
 // @access  Public
 router.get('/', async (req, res) => {
     try {
-        const questions = await Question.find().sort({ createdAt: -1 });
+        const questions = awaitQuestion.find()
+                    .populate('category', 'name description') 
+                    .sort({ createdAt: -1 });       
         res.json(questions);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
-    }
+    } catch (err) {        console.error(err.message);
+        res.status(500).send('Server error');    }
 });
 
 // @route   GET /api/questions/:id

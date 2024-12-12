@@ -15,7 +15,7 @@ function ViewQuestions() {
 
     const fetchQuestions = async () => {
         try {
-            const res = await axios.get('/api/questions');
+            const res = await axios.get('/api/questions?populate=category'); // Using proxy and populate
             setQuestions(res.data);
             setLoading(false);
         } catch (err) {
@@ -28,7 +28,7 @@ function ViewQuestions() {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this question?')) {
             try {
-                await axios.delete(`/api/questions/${id}`);
+                await axios.delete(`/api/questions/${id}`); // Using proxy
                 setDeleteSuccess('Question deleted successfully!');
                 // Refresh the list
                 fetchQuestions();
@@ -36,7 +36,7 @@ function ViewQuestions() {
                 setTimeout(() => setDeleteSuccess(''), 3000);
             } catch (err) {
                 console.error(err);
-                setError("You don't have the permission to delete this question!");
+                setError(err.response?.data?.msg || 'Error deleting question');
             }
         }
     };
@@ -55,7 +55,6 @@ function ViewQuestions() {
                                 <div className="question-header">
                                     <h3>{q.question}</h3>
                                     <div className="question-actions">
-                                        {/* Edit functionality can be implemented similarly */}
                                         <Link to={`/edit-question/${q._id}`}>
                                             <button className="edit-btn">Edit</button>
                                         </Link>
@@ -77,7 +76,7 @@ function ViewQuestions() {
                                 </p>
                                 <p className="question-details">
                                     <strong>Difficulty:</strong> {q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1)} |{' '}
-                                    <strong>Category:</strong> {q.category.charAt(0).toUpperCase() + q.category.slice(1)}
+                                    <strong>Category:</strong> {q.category.name}
                                 </p>
                             </div>
                         ))}
@@ -94,3 +93,4 @@ function ViewQuestions() {
 }
 
 export default ViewQuestions;
+

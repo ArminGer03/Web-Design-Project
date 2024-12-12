@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import ThemeSwitch from './ThemeSwitch';
@@ -13,13 +13,28 @@ function CreateQuestion() {
         option4: '',
         correctOption: '1',
         difficulty: 'easy',
-        category: 'general',
+        category: '',
         relevantQuestions: '',
     });
+    const [categories, setCategories] = useState([]);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const { question, option1, option2, option3, option4, correctOption, difficulty, category, relevantQuestions } = formData;
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get('/api/categories');
+            setCategories(res.data);
+        } catch (err) {
+            console.error(err);
+            setError('Error fetching categories');
+        }
+    };
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,6 +45,12 @@ function CreateQuestion() {
         setError('');
         setSuccess('');
 
+        // Validate input
+        if (!question.trim() || !option1.trim() || !option2.trim() || !option3.trim() || !option4.trim() || !category) {
+            setError('Please fill in all required fields');
+            return;
+        }
+
         // Prepare relevantQuestions array
         let relevantQ = [];
         if (relevantQuestions.trim()) {
@@ -38,16 +59,16 @@ function CreateQuestion() {
         }
 
         const newQuestion = {
-            question,
-            options: [option1, option2, option3, option4],
+            question: question.trim(),
+            options: [option1.trim(), option2.trim(), option3.trim(), option4.trim()],
             correctOption: parseInt(correctOption),
             difficulty,
-            category,
+            category, // ObjectId of the category
             relevantQuestions: relevantQ,
         };
 
         try {
-            const res = await axios.post('/api/questions', newQuestion);
+            const res = await axios.post('/api/questions', newQuestion); // Using proxy
             setSuccess('Question created successfully!');
             // Optionally, reset form
             setFormData({
@@ -58,7 +79,7 @@ function CreateQuestion() {
                 option4: '',
                 correctOption: '1',
                 difficulty: 'easy',
-                category: 'general',
+                category: '',
                 relevantQuestions: '',
             });
             // Redirect to view questions after a delay
@@ -123,9 +144,12 @@ function CreateQuestion() {
                     <div className="input-box">
                         <label htmlFor="category">Category</label>
                         <select name="category" id="category" value={category} onChange={onChange} required>
-                            <option value="general">General Knowledge</option>
-                            <option value="history">History</option>
-                            <option value="science">Science</option>
+                            <option value="">-- Select Category --</option>
+                            {categories.map((cat) => (
+                                <option key={cat._id} value={cat._id}>
+                                    {cat.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -154,3 +178,4 @@ function CreateQuestion() {
 }
 
 export default CreateQuestion;
+
