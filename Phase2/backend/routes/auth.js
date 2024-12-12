@@ -26,11 +26,9 @@ router.post('/signup', async (req, res) => {
     }
 
     try {
-        // Check for existing user
         let user = await User.findOne({ email });
         if (user) return res.status(400).json({ msg: 'User already exists' });
 
-        // Create new user
         user = new User({
             username,
             email,
@@ -38,14 +36,11 @@ router.post('/signup', async (req, res) => {
             role: role || 'user',
         });
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
 
-        // Save user
         await user.save();
 
-        // Create and sign JWT
         const payload = {
             user: {
                 id: user.id,
