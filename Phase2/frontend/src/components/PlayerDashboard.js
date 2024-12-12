@@ -14,14 +14,14 @@ function PlayerDashboard() {
         <main>
             <section className="glass auth-container">
                 <h2>Player Dashboard</h2>
-                <h3>Welcome Armin</h3>
                 <div className="dashboard-options">
-                    <Link to="/questions-management" className="dashboard-link">
+                    {/* todo change this part for player */}
+                    {/* <Link to="/questions-management" className="dashboard-link">
                         <button className="dashboard-button">Questions Management</button>
                     </Link>
                     <Link to="/leaderboard" className="dashboard-link">
                         <button className="dashboard-button">Leaderboard</button>
-                    </Link>
+                    </Link> */}
                 </div>
                 <button onClick={handleLogout} className="dashboard-button" style={{ marginTop: '20px', backgroundColor: '#f03a47' }}>
                     Logout

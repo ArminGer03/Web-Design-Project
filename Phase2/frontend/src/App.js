@@ -5,6 +5,9 @@ import Signup from './components/Signup';
 import PlayerDashboard from './components/PlayerDashboard';
 import DesignerDashboard from './components/DesignerDashboard';
 import QuestionsManagement from './components/QuestionsManagement';
+import CreateQuestion from './components/CreateQuestion';
+import ViewQuestions from './components/ViewQuestions';
+import EditQuestion from './components/EditQuestion';
 import CategoriesManagement from './components/CategoriesManagement';
 import Leaderboard from './components/Leaderboard';
 import { ThemeProvider } from './context/ThemeContext';
@@ -44,6 +47,24 @@ function App() {
                                 <ProtectedRoute>
                                     <QuestionsManagement />
                                 </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/create-question"
+                            element={
+                                <CreateQuestion />
+                            }
+                        />
+                        <Route
+                            path="/view-questions"
+                            element={
+                                    <ViewQuestions />
+                            }
+                        />
+                        <Route
+                            path="/edit-question/:id"
+                            element={
+                                <EditQuestion />
                             }
                         />
                         <Route

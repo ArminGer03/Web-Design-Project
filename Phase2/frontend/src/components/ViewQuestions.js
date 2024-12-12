@@ -36,7 +36,7 @@ function ViewQuestions() {
                 setTimeout(() => setDeleteSuccess(''), 3000);
             } catch (err) {
                 console.error(err);
-                setError('Error deleting question');
+                setError("You don't have the permission to delete this question!");
             }
         }
     };
