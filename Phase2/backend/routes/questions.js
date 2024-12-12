@@ -109,13 +109,14 @@ router.delete('/:id', async (req, res) => {
     try {
         const question = await Question.findById(req.params.id);
         if (!question) {
+            console.warn(`Delete attempt failed: Question ID ${req.params.id} not found.`);
             return res.status(404).json({ msg: 'Question not found' });
         }
 
-        await Question.findByIdAndRemove(req.params.id);
+        await Question.findByIdAndRemove(req.params.id); // This line causes the error
         res.json({ msg: 'Question removed' });
     } catch (err) {
-        console.error(err.message);
+        console.error(`Error deleting question ID ${req.params.id}:`, err.message);
         if (err.kind === 'ObjectId') {
             return res.status(404).json({ msg: 'Question not found' });
         }
