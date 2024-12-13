@@ -40,8 +40,8 @@ function PlayerCategories() {
                                 <div className="question-header">
                                     <h3>{cat.name}</h3>
                                     <div className="question-actions">
-                                        <Link to={`/answer-questions/${cat._id}`}>
-                                            <button className="edit-btn">Answer some Questions!</button>
+                                        <Link to={`/view-answered-questions/${cat._id}`}>
+                                            <button className="edit-btn">View Your Questions</button>
                                         </Link>
                                     </div>
                                 </div>

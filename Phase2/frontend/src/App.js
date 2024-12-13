@@ -13,8 +13,11 @@ import PlayerCategories from './components/PlayerCategories';
 import CategoriesManagement from './components/CategoriesManagement';
 import CreateCategory from './components/CreateCategory';
 import ViewCategories from './components/ViewCategories';
+import ViewPlayerAnswersCategory from './components/ViewPlayerAnswersCategory'
+import ViewPlayerAnswers from './components/ViewPlayerAnswers'
 import EditCategory from './components/EditCategory';
 import Leaderboard from './components/Leaderboard';
+import AnswerQuestions from './components/AnswerQuestions';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -41,10 +44,33 @@ function App() {
                         />
 
                         <Route
+                            path="/answer-questions/:id"
+                            element={
+                                <AnswerQuestions />
+                            }
+                        />
+
+                        <Route
+                            path="view-answered-questions/:id"
+                            element={
+                                <ViewPlayerAnswers/>
+                            }
+                        />
+
+                        <Route
                             path="/player-questions"
                             element={
                                 <ProtectedRoute>
                                     <PlayerQuestions />
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/answered-questions"
+                            element={
+                                <ProtectedRoute>
+                                    <ViewPlayerAnswersCategory />
                                 </ProtectedRoute>
                             }
                         />
@@ -57,6 +83,11 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />  
+
+
+
+
+
 
                         <Route
                             path="/designer-dashboard"

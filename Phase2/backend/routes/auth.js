@@ -122,4 +122,36 @@ router.get('/user', authMiddleware, async (req, res) => {
 });
 
 
+// @route   POST /api/auth/update-score
+// @desc    Update user's score and answered questions
+// @access  Private
+router.post('/update-score', authMiddleware, async (req, res) => {
+    const { questionId, points } = req.body;
+
+    if (!questionId || typeof points !== 'number') {
+        return res.status(400).json({ msg: 'Invalid input' });
+    }
+
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ msg: 'User not found' });
+
+        // Check if the question is already answered
+        if (user.answeredQuestions.includes(questionId)) {
+            return res.status(400).json({ msg: 'Question already answered' });
+        }
+
+        // Update score and add question to answeredQuestions
+        user.score += points;
+        user.answeredQuestions.push(questionId);
+
+        await user.save();
+        res.json({ msg: 'Score updated successfully', score: user.score });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+
 module.exports = router;
