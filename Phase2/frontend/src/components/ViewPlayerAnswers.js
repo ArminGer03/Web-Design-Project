@@ -9,7 +9,7 @@ function ViewPlayerAnswers() {
     const [currentUser, setCurrentUser] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
-    const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [filteredData, setFilteredData] = useState([]); // Array to hold filtered questions and answers
     const { id } = useParams(); // Category ID
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function ViewPlayerAnswers() {
 
     useEffect(() => {
         if (questions.length > 0 && id) {
-            filterAnsweredQuestions();
+            filterAnsweredData();
         }
     }, [questions, id, answeredQuestions]);
 
@@ -31,7 +31,12 @@ function ViewPlayerAnswers() {
             });
 
             setCurrentUser(userRes.data);
-            setAnsweredQuestions(userRes.data.answeredQuestions || []);
+            setAnsweredQuestions(
+                userRes.data.answeredQuestions.map((question, index) => ({
+                    questionId: question,
+                    userAnswer: userRes.data.userAnswer[index],
+                }))
+            );
 
             const questionRes = await axios.get('/api/questions?populate=category');
             setQuestions(questionRes.data);
@@ -43,12 +48,21 @@ function ViewPlayerAnswers() {
         }
     };
 
-    const filterAnsweredQuestions = () => {
-        const filtered = questions.filter(
-            (question) =>
-                question.category._id === id && answeredQuestions.includes(question._id)
+    const filterAnsweredData = () => {
+        // Filter questions based on category ID and answered questions
+        const filteredQuestions = questions.filter((q) =>
+            answeredQuestions.some((aq) => aq.questionId === q._id) && q.category._id === id
         );
-        setFilteredQuestions(filtered);
+
+        // Synchronize user answers with the filtered questions
+        const filteredAnswers = filteredQuestions.map((q) =>
+            answeredQuestions.find((aq) => aq.questionId === q._id)
+        );
+
+        setFilteredData(filteredQuestions.map((q, index) => ({
+            question: q,
+            userAnswer: filteredAnswers[index]?.userAnswer || null,
+        })));
     };
 
     return (
@@ -59,45 +73,73 @@ function ViewPlayerAnswers() {
                 {error && <div className="error-message">{error}</div>}
                 {!loading && !error && (
                     <div className="questions-list">
-                        {filteredQuestions.map((q) => (
-                            <div className="question-item" key={q._id}>
-                                <div className="question-header">
-                                    <h3>{q.question}</h3>
-                                </div>
-                                <p className="question-text">{q.question}</p>
+                        {filteredData.map(({ question, userAnswer }) => {
+                            const userAnswerIndex = userAnswer - 1;
+                            const isCorrect =
+                                userAnswerIndex === question.correctOption - 1;
+                            const userAnswerText = userAnswerIndex >= 0
+                                ? question.options[userAnswerIndex]
+                                : null;
 
-                                <div className="options-list">
-                                    {q.options.map((opt, index) => (
-                                        <div
-                                            key={index}
-                                            className={`option-item ${
-                                                opt === q.options[q.correctOption - 1]
-                                                    ? 'correct-answer'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <strong>Option {index + 1}:</strong> {opt}
-                                        </div>
-                                    ))}
-                                </div>
+                            return (
+                                <div className="question-item" key={question._id}>
+                                    <div className="question-header">
+                                        <h3>{question.question}</h3>
+                                    </div>
+                                    <p className="question-text">{question.question}</p>
 
-                                <div
-                                    className="feedback"
-                                    style={{ color: 'green' }}
-                                >
-                                    <p>
-                                        Correct Answer: {q.options[q.correctOption - 1]}
+                                    <div className="options-list">
+                                        {question.options.map((opt, index) => (
+                                            <div
+                                                key={index}
+                                                className={`option-item ${
+                                                    index === question.correctOption - 1
+                                                        ? 'correct-answer'
+                                                        : ''
+                                                }`}
+                                                style={{
+                                                    color:
+                                                        userAnswerIndex === index
+                                                            ? isCorrect
+                                                                ? 'green'
+                                                                : 'red'
+                                                            : 'inherit',
+                                                }}
+                                            >
+                                                <strong>Option {index + 1}:</strong> {opt}
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div
+                                        className="feedback"
+                                        style={{
+                                            color: isCorrect ? 'green' : 'red',
+                                        }}
+                                    >
+                                        <p>
+                                            Your Answer:{' '}
+                                            {userAnswerText || 'No Answer Submitted'}
+                                        </p>
+                                        {!isCorrect && (
+                                            <p>
+                                                Correct Answer:{' '}
+                                                {question.options[
+                                                    question.correctOption - 1
+                                                ]}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <p className="question-details">
+                                        <strong>Difficulty:</strong>{' '}
+                                        {question.difficulty.charAt(0).toUpperCase() +
+                                            question.difficulty.slice(1)}{' '}
+                                        | <strong>Category:</strong> {question.category.name}
                                     </p>
                                 </div>
-
-                                <p className="question-details">
-                                    <strong>Difficulty:</strong>{' '}
-                                    {q.difficulty.charAt(0).toUpperCase() +
-                                        q.difficulty.slice(1)}{' '}
-                                    | <strong>Category:</strong> {q.category.name}
-                                </p>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
 

@@ -101,14 +101,12 @@ function AnswerQuestions() {
         try {
             const token = localStorage.getItem('token');
     
-            // Update the score and `correct` field if the answer is correct
+            // Include `userAnswer` in the payload
             const updateData = {
                 questionId,
                 points,
+                userAnswer: question.options.indexOf(selectedAnswer) + 1, // Record the user's answer
             };
-            if (isCorrect) {
-                updateData.incrementCorrect = 1; // Custom payload field to indicate incrementing `correct`
-            }
     
             await axios.post('/api/auth/update-score', updateData, {
                 headers: { 'x-auth-token': token },
@@ -128,6 +126,7 @@ function AnswerQuestions() {
             setError('Error updating score');
         }
     };
+    
     
 
     return (

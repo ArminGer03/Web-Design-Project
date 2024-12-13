@@ -43,7 +43,13 @@ const UserSchema = new mongoose.Schema({
     correct: {
         type: Number,
         default: 0
-    }
+    },
+
+    userAnswer: [
+        {
+            type: Number, 
+        },
+    ],
 
 
 });

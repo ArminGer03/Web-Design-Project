@@ -70,7 +70,7 @@ function RandomQuestion() {
         }
     
         const question = randomQuestion;
-        const isCorrect = 
+        const isCorrect =
             selectedAnswer === question.options[question.correctOption - 1];
         const points = isCorrect
             ? question.difficulty === 'easy'
@@ -88,10 +88,11 @@ function RandomQuestion() {
         try {
             const token = localStorage.getItem('token');
     
-            // Update score and `correct` field
+            // Update score, `correct`, and userAnswer fields
             const updateData = {
                 questionId: question._id,
                 points,
+                userAnswer: question.options.indexOf(selectedAnswer) + 1, // Record user's answer as its index + 1
             };
             if (isCorrect) {
                 updateData.incrementCorrect = 1; // Indicate `correct` increment
@@ -115,6 +116,7 @@ function RandomQuestion() {
             setError('Error updating score');
         }
     };
+    
     
 
     return (

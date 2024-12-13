@@ -122,13 +122,14 @@ router.get('/user', authMiddleware, async (req, res) => {
 });
 
 
+
 // @route   POST /api/auth/update-score
-// @desc    Update user's score and answered questions
+// @desc    Update user's score, answered questions, and userAnswer
 // @access  Private
 router.post('/update-score', authMiddleware, async (req, res) => {
-    const { questionId, points } = req.body;
+    const { questionId, points, userAnswer } = req.body; // Include userAnswer in the request body
 
-    if (!questionId || typeof points !== 'number') {
+    if (!questionId || typeof points !== 'number' || typeof userAnswer !== 'number') {
         return res.status(400).json({ msg: 'Invalid input' });
     }
 
@@ -141,21 +142,29 @@ router.post('/update-score', authMiddleware, async (req, res) => {
             return res.status(400).json({ msg: 'Question already answered' });
         }
 
-        // Update score and add question to answeredQuestions
-        user.score += points;
-        user.answeredQuestions.push(questionId);
-
         if (points !== 0) {
             user.correct = (user.correct || 0) + 1;
         }
+        
+        // Update score and add question to answeredQuestions
+        user.score += points;
+        user.answeredQuestions.push(questionId);
+        user.userAnswer.push(userAnswer); // Record the user's answer
 
         await user.save();
-        res.json({ msg: 'Score updated successfully', score: user.score });
+        res.json({
+            msg: 'Score updated successfully',
+            score: user.score,
+            userAnswer: user.userAnswer, // Optionally return the updated userAnswer array
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 });
+
+
+
 
 // @route   GET /api/leaderboard
 // @desc    Get leaderboard sorted by score
