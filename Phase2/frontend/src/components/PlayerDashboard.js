@@ -18,6 +18,9 @@ function PlayerDashboard() {
                     <Link to="/player-questions" className="dashboard-link">
                         <button className="dashboard-button">Questions</button>
                     </Link>
+                    <Link to="/follow" className="dashboard-link">
+                        <button className="dashboard-button">Follow</button>
+                    </Link>
                     <Link to="/leaderboard" className="dashboard-link">
                         <button className="dashboard-button">Leaderboard</button>
                     </Link>

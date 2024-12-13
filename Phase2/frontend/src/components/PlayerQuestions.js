@@ -14,6 +14,9 @@ function PlayerQuestions() {
                     <Link to="/player-categories" className="dashboard-link">
                         <button className="dashboard-button">New Question</button>
                     </Link>
+                    <Link to="/random-question" className="dashboard-link">
+                        <button className="dashboard-button">Random Question</button>
+                    </Link> 
                     <Link to="/answered-questions" className="dashboard-link">
                         <button className="dashboard-button">Answered Questions</button>
                     </Link> 

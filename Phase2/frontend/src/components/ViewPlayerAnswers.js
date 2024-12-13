@@ -3,7 +3,7 @@ import axios from 'axios';
 import ThemeSwitch from './ThemeSwitch';
 import { Link, useParams } from 'react-router-dom';
 
-function AnsweredQuestions() {
+function ViewPlayerAnswers() {
     const [questions, setQuestions] = useState([]);
     const [answeredQuestions, setAnsweredQuestions] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
@@ -110,4 +110,4 @@ function AnsweredQuestions() {
     );
 }
 
-export default AnsweredQuestions;
+export default ViewPlayerAnswers;

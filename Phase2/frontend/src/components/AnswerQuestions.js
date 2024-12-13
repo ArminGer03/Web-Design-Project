@@ -62,25 +62,25 @@ function AnswerQuestions() {
 
     const handleAnswerSubmit = async (e, questionId) => {
         e.preventDefault();
-
+    
         if (answeredQuestions.includes(questionId)) {
             alert('You have already answered this question.');
             return;
         }
-
+    
         const selectedAnswer = selectedAnswers[questionId];
         if (!selectedAnswer) {
             alert('Please select an option before submitting!');
             return;
         }
-
+    
         const question = filteredQuestions.find((q) => q._id === questionId);
-
+    
         if (!question) {
             console.error('Question not found.');
             return;
         }
-
+    
         const isCorrect = selectedAnswer === question.options[question.correctOption - 1];
         const points = isCorrect
             ? question.difficulty === 'easy'
@@ -89,7 +89,7 @@ function AnswerQuestions() {
                 ? 50
                 : 100
             : 0;
-
+    
         setFeedback((prev) => ({
             ...prev,
             [questionId]: {
@@ -97,26 +97,30 @@ function AnswerQuestions() {
                 correctOption: question.options[question.correctOption - 1],
             },
         }));
-
+    
         try {
             const token = localStorage.getItem('token');
-            await axios.post(
-                '/api/auth/update-score',
-                {
-                    questionId,
-                    points,
-                },
-                {
-                    headers: { 'x-auth-token': token },
-                }
-            );
-
+    
+            // Update the score and `correct` field if the answer is correct
+            const updateData = {
+                questionId,
+                points,
+            };
+            if (isCorrect) {
+                updateData.incrementCorrect = 1; // Custom payload field to indicate incrementing `correct`
+            }
+    
+            await axios.post('/api/auth/update-score', updateData, {
+                headers: { 'x-auth-token': token },
+            });
+    
             setAnsweredQuestions((prev) => [...prev, questionId]);
-
+    
             if (isCorrect) {
                 setCurrentUser((prev) => ({
                     ...prev,
                     score: prev.score + points,
+                    correct: (prev.correct || 0) + 1, // Increment correct count in UI
                 }));
             }
         } catch (err) {
@@ -124,6 +128,7 @@ function AnswerQuestions() {
             setError('Error updating score');
         }
     };
+    
 
     return (
         <main>

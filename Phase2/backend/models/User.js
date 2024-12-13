@@ -40,6 +40,11 @@ const UserSchema = new mongoose.Schema({
         default: 0
     },
 
+    correct: {
+        type: Number,
+        default: 0
+    }
+
 
 });
 

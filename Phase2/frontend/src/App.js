@@ -13,10 +13,12 @@ import PlayerCategories from './components/PlayerCategories';
 import CategoriesManagement from './components/CategoriesManagement';
 import CreateCategory from './components/CreateCategory';
 import ViewCategories from './components/ViewCategories';
-import ViewPlayerAnswersCategory from './components/ViewPlayerAnswersCategory'
-import ViewPlayerAnswers from './components/ViewPlayerAnswers'
+import ViewPlayerAnswersCategory from './components/ViewPlayerAnswersCategory';
+import ViewPlayerAnswers from './components/ViewPlayerAnswers';
+import RandomQuestion from './components/RandomQuestion';
 import EditCategory from './components/EditCategory';
 import Leaderboard from './components/Leaderboard';
+import PlayerFollowing from './components/PlayerFollowing';
 import AnswerQuestions from './components/AnswerQuestions';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -67,6 +69,15 @@ function App() {
                         />
 
                         <Route
+                            path="/follow"
+                            element={
+                                <ProtectedRoute>
+                                    <PlayerFollowing />
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
                             path="/answered-questions"
                             element={
                                 <ProtectedRoute>
@@ -84,7 +95,14 @@ function App() {
                             }
                         />  
 
-
+                        <Route
+                            path="/random-question"
+                            element={
+                                <ProtectedRoute>
+                                    <RandomQuestion />
+                                </ProtectedRoute>
+                            }
+                        />  
 
 
 

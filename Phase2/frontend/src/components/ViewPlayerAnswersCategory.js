@@ -3,7 +3,7 @@ import axios from 'axios';
 import ThemeSwitch from './ThemeSwitch';
 import { Link, useParams } from 'react-router-dom';
 
-function PlayerCategories() {
+function ViewPlayerAnswersCategory() {
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -60,4 +60,4 @@ function PlayerCategories() {
     );
 }
 
-export default PlayerCategories;
+export default ViewPlayerAnswersCategory;
