@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Signup from './components/Signup';
 import PlayerDashboard from './components/PlayerDashboard';
+import PlayerQuestions from './components/PlayerQuestions';
 import DesignerDashboard from './components/DesignerDashboard';
 import QuestionsManagement from './components/QuestionsManagement';
 import CreateQuestion from './components/CreateQuestion';
 import ViewQuestions from './components/ViewQuestions';
 import EditQuestion from './components/EditQuestion';
+import PlayerCategories from './components/PlayerCategories';
 import CategoriesManagement from './components/CategoriesManagement';
 import CreateCategory from './components/CreateCategory';
 import ViewCategories from './components/ViewCategories';
@@ -16,6 +18,7 @@ import Leaderboard from './components/Leaderboard';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+
 
 function App() {
     return (
@@ -26,7 +29,7 @@ function App() {
                         <Route path="/" element={<Navigate to="/login" />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
-                        
+
                         {/* Protected Routes */}
                         <Route
                             path="/player-dashboard"
@@ -36,6 +39,25 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
+
+                        <Route
+                            path="/player-questions"
+                            element={
+                                <ProtectedRoute>
+                                    <PlayerQuestions />
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/player-categories"
+                            element={
+                                <ProtectedRoute>
+                                    <PlayerCategories />
+                                </ProtectedRoute>
+                            }
+                        />  
+
                         <Route
                             path="/designer-dashboard"
                             element={
@@ -104,6 +126,9 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
+
+
+                        
                         
                         {/* Catch-all Route */}
                         <Route path="*" element={<Navigate to="/login" />} />

@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
         // If the current route is a dashboard, allow access
         // Otherwise, redirect to the appropriate dashboard
         const currentPath = window.location.pathname;
-        const allowedPaths = ['/player-dashboard', '/designer-dashboard', '/questions-management', '/categories-management', '/leaderboard'];
+        const allowedPaths = ['/player-dashboard', '/designer-dashboard', '/questions-management', '/categories-management', '/leaderboard', '/player-questions', '/player-categories'];
 
         if (allowedPaths.includes(currentPath)) {
             // Optionally, enforce role-based access to specific routes
