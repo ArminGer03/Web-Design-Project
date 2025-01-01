@@ -1,0 +1,618 @@
+/* Ensure consistent box-sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --glass: rgba(200, 200, 200, 0.05);
+    --glass-shadow: rgba(173, 215, 230, 0.7);
+    --text-color: white;
+    --label-color: white;
+    --input-text-color: black;
+    --placeholder-color: #666;
+    --button-text-color: white;
+    --question-text-color: white;
+    --correct-answer-color: #28a745;
+    --incorrect-answer-color: red;
+    --question-details-color: #ccc;
+    --category-title-color: white;
+    --category-description-color: #ccc;
+}
+
+.lightmode {
+    background-image: url("../public/assets/backgrounds/lightmode-background.jpg");
+    --glass: rgba(100, 100, 100, 0.1);
+    --glass-shadow: rgba(23, 65, 80, 0.7);
+    --text-color: black;
+    --label-color: black;
+    --input-text-color: black;
+    --placeholder-color: #999;
+    --button-text-color: white;
+    --question-text-color: black;
+    --correct-answer-color: #155724;
+    --incorrect-answer-color: red;
+    --question-details-color: #333;
+    --category-title-color: black;
+    --category-description-color: #333;
+}
+
+
+body {
+    background-image: url("../public/assets/backgrounds/darkmode-background.jpg");
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--text-color);
+}
+
+
+main {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    padding: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 25px;
+    box-shadow: 3px 7px var(--glass-shadow);
+    background-color: var(--glass);
+    backdrop-filter: blur(5px);
+    color: var(--text-color);
+    max-width: 600px;
+    width: 90%;
+    margin: 20px;
+}
+
+.glass h2 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-container {
+    width: 100%;
+}
+
+.input-box {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    color: var(--label-color);
+}
+
+.input-box input,
+.input-box select,
+.input-box textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 1em;
+    color: var(--input-text-color);
+}
+
+.input-box input::placeholder,
+.input-box textarea::placeholder {
+    color: var(--placeholder-color);
+}
+
+.input-box textarea {
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    color: var(--button-text-color);
+    background: linear-gradient(135deg, rgba(9, 9, 121, 0.8), rgba(0, 212, 255, 0.8));
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-out, transform 0.2s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, rgba(9, 9, 121, 1), rgba(0, 212, 255, 1));
+    transform: translateY(-3px);
+}
+
+.dashboard-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.dashboard-link button {
+    background-color: #f03a47;
+    transition: background-color 0.3s ease, transform 0.2s;
+    color: var(--button-text-color);
+}
+
+.dashboard-link button:hover {
+    background-color: #d12234;
+    transform: translateY(-3px);
+}
+
+#theme-switch {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 4px var(--glass-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transition: bottom 0.3s ease-out, box-shadow 0.3s;
+}
+
+#theme-switch:hover {
+    bottom: 22px;
+    box-shadow: 0px 7px var(--glass-shadow);
+}
+
+#theme-switch svg:first-child {
+    display: none;
+}
+
+.lightmode #theme-switch svg:first-child {
+    display: block;
+}
+
+.lightmode #theme-switch svg:last-child {
+    display: none;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .glass {
+        padding: 30px;
+    }
+
+    .glass h2 {
+        font-size: 1.8em;
+    }
+
+    button {
+        font-size: 1em;
+        padding: 12px;
+    }
+
+    .input-box label {
+        font-size: 1em;
+    }
+
+    .question-header h3 {
+        font-size: 1.2em;
+    }
+
+    .question-actions button {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+
+    .question-text {
+        font-size: 1em;
+    }
+
+    .questions-container {
+        padding: 20px;
+    }
+
+    .category-header h3 {
+        font-size: 1.2em;
+    }
+
+    .category-actions button {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+
+    .category-description {
+        font-size: 1em;
+    }
+
+    .categories-container {
+        padding: 20px;
+    }
+
+    .leaderboard th,
+    .leaderboard td {
+        padding: 10px 8px;
+        font-size: 0.9em;
+    }
+
+    .leaderboard-container {
+        padding: 30px;
+    }
+
+    .leaderboard-container h2 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .glass {
+        padding: 20px;
+    }
+
+    .glass h2 {
+        font-size: 1.5em;
+    }
+
+    button {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .input-box label {
+        font-size: 0.9em;
+    }
+
+    .radio-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .radio-option {
+        margin-bottom: 10px;
+    }
+
+    .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .question-actions {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .question-actions button {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .category-actions {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .category-actions button {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    .leaderboard th,
+    .leaderboard td {
+        padding: 8px 5px;
+        font-size: 0.8em;
+    }
+
+    .leaderboard-container {
+        padding: 20px;
+    }
+
+    .leaderboard-container h2 {
+        font-size: 1.5em;
+    }
+}
+
+/* Styles for the radio buttons */
+.input-box.radio-in {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-box.radio-in > label {
+    font-size: 1.1em;
+    color: var(--label-color);
+    margin-bottom: 10px;
+}
+
+.radio-options {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-option .radio-custom {
+    position: relative;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--text-color);
+    background-color: transparent;
+    margin-right: 8px;
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom {
+    background-color: var(--text-color);
+}
+
+.radio-option input[type="radio"]:focus + .radio-custom {
+    outline: 2px solid #00d4ff;
+}
+
+.radio-option:hover .radio-custom {
+    border-color: #00d4ff;
+}
+
+.radio-option span.radio-custom,
+.radio-option input[type="radio"] {
+    flex-shrink: 0;
+}
+
+.questions-container {
+    width: clamp(300px, 80%, 1000px);
+    padding: 40px;
+    margin: 20px auto;
+}
+
+.questions-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.question-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.question-actions button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    font-size: 1em;
+    color: var(--button-text-color);
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.question-actions .delete-btn {
+    background-color: #dc3545;
+}
+
+.question-actions button:hover {
+    background-color: #0056b3;
+}
+
+.question-actions .delete-btn:hover {
+    background-color: #c82333;
+}
+
+.question-text {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: var(--question-text-color);
+}
+
+.options-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.options-list li {
+    margin-bottom: 5px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.correct-answer {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--correct-answer-color);
+}
+
+.incorrect-answer {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--incorrect-answer-color);
+}
+
+.question-details {
+    font-size: 0.9em;
+    color: var(--question-details-color);
+}
+
+
+/* Styles for Categories Container */
+.categories-container {
+    width: clamp(300px, 80%, 1000px);
+    padding: 40px;
+    margin: 20px auto;
+}
+
+.categories-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+/* Categories List */
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Category Item */
+.category-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Category Header */
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.category-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--category-title-color);
+}
+
+/* Category Actions */
+.category-actions button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    font-size: 1em;
+    color: var(--button-text-color);
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.category-actions .delete-btn {
+    background-color: #dc3545;
+}
+
+.category-actions button:hover {
+    background-color: #0056b3;
+}
+
+.category-actions .delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Category Description */
+.category-description {
+    font-size: 1.1em;
+    margin-top: 10px;
+    color: var(--category-description-color);
+}
+
+.leaderboard-container {
+    width: clamp(300px, 80%, 1000px);
+    padding: 40px;
+    margin: 20px auto;
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+.leaderboard-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+/* Table Styles */
+.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.leaderboard th,
+.leaderboard td {
+    padding: 12px 15px;
+    text-align: center;
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard th {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.leaderboard tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Specific Classes for Rank Styles */
+.leaderboard tbody tr.first td {
+    font-weight: bold;
+    color: gold;
+}
+
+.leaderboard tbody tr.second td {
+    font-weight: bold;
+    color: silver;
+}
+
+.leaderboard tbody tr.third td {
+    font-weight: bold;
+    color: #cd7f32; /* Bronze color */
+}
