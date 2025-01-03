@@ -21,13 +21,11 @@ import Leaderboard from './components/Leaderboard';
 import PlayerFollowing from './components/PlayerFollowing';
 import AnswerQuestions from './components/AnswerQuestions';
 import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
     return (
-        <AuthProvider>
             <ThemeProvider>
                 <Router>
                     <Routes>
@@ -184,7 +182,6 @@ function App() {
                     </Routes>
                 </Router>
             </ThemeProvider>
-        </AuthProvider>
     );
 }
 
