@@ -15,7 +15,7 @@ function ViewCategories() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/api/categories'); // Using proxy
+            const res = await axios.get('/view-categories');
             setCategories(res.data);
             setLoading(false);
         } catch (err) {
@@ -28,11 +28,11 @@ function ViewCategories() {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this category?')) {
             try {
-                await axios.delete(`/api/categories/${id}`); // Using proxy
+                await axios.delete(`/delete-category/${id}`); 
                 setDeleteSuccess('Category deleted successfully!');
-                // Refresh the list
+            
                 fetchCategories();
-                // Remove the success message after 3 seconds
+
                 setTimeout(() => setDeleteSuccess(''), 3000);
             } catch (err) {
                 console.error(err);
@@ -51,14 +51,14 @@ function ViewCategories() {
                 {!loading && !error && (
                     <div className="questions-list">
                         {categories.map((cat) => (
-                            <div className="question-item" key={cat._id}>
+                            <div className="question-item" key={cat.id}>
                                 <div className="question-header">
                                     <h3>{cat.name}</h3>
                                     <div className="question-actions">
-                                        <Link to={`/edit-category/${cat._id}`}>
+                                        <Link to={`/edit-category/${cat.id}`}>
                                             <button className="edit-btn">Edit</button>
                                         </Link>
-                                        <button className="delete-btn" onClick={() => handleDelete(cat._id)}>
+                                        <button className="delete-btn" onClick={() => handleDelete(cat.id)}>
                                             Delete
                                         </button>
                                     </div>

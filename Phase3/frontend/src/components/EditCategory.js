@@ -22,7 +22,7 @@ function EditCategory() {
 
     const fetchCategory = async () => {
         try {
-            const res = await axios.get(`/api/categories/${id}`); // Using proxy
+            const res = await axios.get(`/category/${id}`); // Using proxy
             setFormData({
                 name: res.data.name,
                 description: res.data.description,
@@ -56,7 +56,7 @@ function EditCategory() {
         };
 
         try {
-            const res = await axios.put(`/api/categories/${id}`, updatedCategory); // Using proxy
+            const res = await axios.put(`/edit-category/${id}`, updatedCategory); // Using proxy
             setSuccess('Category updated successfully!');
             // Optionally, redirect to view categories after a delay
             setTimeout(() => navigate('/view-categories'), 2000);

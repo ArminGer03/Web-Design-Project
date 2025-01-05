@@ -35,7 +35,8 @@ function CreateCategory() {
         };
 
         try {
-            const res = await axios.post('/api/categories', newCategory); // Using proxy
+            const res = await axios.post('/create-category', newCategory); // Using proxy
+            console.log(res)
             setSuccess('Category created successfully!');
             // Optionally, reset form
             setFormData({
