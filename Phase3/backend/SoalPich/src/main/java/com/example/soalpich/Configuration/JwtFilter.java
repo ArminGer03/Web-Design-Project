@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebFilter(urlPatterns = "/*")  // Apply this filter to all incoming requests
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final String SECRET_KEY = "your_secret_key_here";  // Use your actual secret key
+    private final String SECRET_KEY = "ManDigehRadDadamVelamKonidShomaHamRadBedidBehtareZendegiRahattare";  // Use your actual secret key
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

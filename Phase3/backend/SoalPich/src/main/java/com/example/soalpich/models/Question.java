@@ -27,18 +27,22 @@ public class Question {
     @DBRef
     private List<Question> relevantQuestions;
 
+    @DBRef
+    private User creator;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Question() {
     }
 
-    public Question(String question, List<String> options, int correctOption, String difficulty, Category category) {
+    public Question(String question, List<String> options, int correctOption, String difficulty, Category category, User creator) {
         this.question = question;
         this.options = options;
         this.correctOption = correctOption;
         this.difficulty = difficulty;
         this.category = category;
+        this.creator = creator;
     }
 
     public String getId() {
@@ -87,6 +91,14 @@ public class Question {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public List<Question> getRelevantQuestions() {

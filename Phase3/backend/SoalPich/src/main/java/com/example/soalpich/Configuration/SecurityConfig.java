@@ -39,7 +39,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/login", "/signup", "/view-categories", "/create-category", "/delete-category/{id}", "/edit-category/{id}", "/category/{id}").permitAll()
+                        .requestMatchers("/login", "/signup", "/view-categories", "/create-category", "/delete-category/{id}",
+                                "/edit-category/{id}", "/category/{id}", "/view-questions", "/create-question",
+                                "/delete-question/{id}", "/edit-question/{id}", "/question/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

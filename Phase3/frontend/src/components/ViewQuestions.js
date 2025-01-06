@@ -15,7 +15,7 @@ function ViewQuestions() {
 
     const fetchQuestions = async () => {
         try {
-            const res = await axios.get('/api/questions?populate=category'); // Using proxy and populate
+            const res = await axios.get('/view-questions'); // Using proxy and populate
             setQuestions(res.data);
             setLoading(false);
         } catch (err) {
@@ -28,7 +28,7 @@ function ViewQuestions() {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this question?')) {
             try {
-                await axios.delete(`/api/questions/${id}`); // Using proxy
+                await axios.delete(`/delete-question/${id}`); // Using proxy
                 setDeleteSuccess('Question deleted successfully!');
                 // Refresh the list
                 fetchQuestions();
@@ -51,14 +51,14 @@ function ViewQuestions() {
                 {!loading && !error && (
                     <div className="questions-list">
                         {questions.map((q) => (
-                            <div className="question-item" key={q._id}>
+                            <div className="question-item" key={q.id}>
                                 <div className="question-header">
                                     <h3>{q.question}</h3>
                                     <div className="question-actions">
-                                        <Link to={`/edit-question/${q._id}`}>
+                                        <Link to={`/edit-question/${q.id}`}>
                                             <button className="edit-btn">Edit</button>
                                         </Link>
-                                        <button className="delete-btn" onClick={() => handleDelete(q._id)}>
+                                        <button className="delete-btn" onClick={() => handleDelete(q.id)}>
                                             Delete
                                         </button>
                                     </div>

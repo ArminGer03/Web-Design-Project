@@ -28,7 +28,7 @@ function CreateQuestion() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/api/categories');
+            const res = await axios.get('/view-categories');
             setCategories(res.data);
         } catch (err) {
             console.error(err);
@@ -44,31 +44,42 @@ function CreateQuestion() {
         e.preventDefault();
         setError('');
         setSuccess('');
-
+    
         // Validate input
         if (!question.trim() || !option1.trim() || !option2.trim() || !option3.trim() || !option4.trim() || !category) {
             setError('Please fill in all required fields');
             return;
         }
-
+    
+        // Find the selected category object by ID
+        const selectedCategory = categories.find((cat) => cat.id === category);
+    
+        if (!selectedCategory) {
+            setError('Invalid category selected');
+            return;
+        }
+    
         // Prepare relevantQuestions array
         let relevantQ = [];
         if (relevantQuestions.trim()) {
-            relevantQ = relevantQuestions.split(',').map(id => id.trim());
+            relevantQ = relevantQuestions.split(',').map((id) => id.trim());
             // Optionally, validate ObjectId format
         }
-
+    
+        // Construct the new question object
         const newQuestion = {
             question: question.trim(),
             options: [option1.trim(), option2.trim(), option3.trim(), option4.trim()],
             correctOption: parseInt(correctOption),
             difficulty,
-            category, // ObjectId of the category
+            category: selectedCategory, // Full category object
             relevantQuestions: relevantQ,
         };
-
+    
+        console.log(newQuestion);
+    
         try {
-            const res = await axios.post('/api/questions', newQuestion); // Using proxy
+            const res = await axios.post('/create-question', newQuestion); // Using proxy
             setSuccess('Question created successfully!');
             // Optionally, reset form
             setFormData({
@@ -89,6 +100,7 @@ function CreateQuestion() {
             setError(err.response?.data?.msg || 'Error creating question');
         }
     };
+    
 
     return (
         <main>
@@ -146,7 +158,7 @@ function CreateQuestion() {
                         <select name="category" id="category" value={category} onChange={onChange} required>
                             <option value="">-- Select Category --</option>
                             {categories.map((cat) => (
-                                <option key={cat._id} value={cat._id}>
+                                <option key={cat.id} value={cat.id}>
                                     {cat.name}
                                 </option>
                             ))}

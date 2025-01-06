@@ -1,5 +1,6 @@
 package com.example.soalpich.controllers;
 
+import com.example.soalpich.models.CurrentUser;
 import com.example.soalpich.models.User;
 import com.example.soalpich.repository.UserRepository;
 import com.example.soalpich.services.AuthService;
@@ -57,6 +58,8 @@ public class AuthController {
 
 
         String token = "Bearer " + authService.generateToken(user.getUsername(), role);
+
+        CurrentUser.set(user);
 
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,
                 token).header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS,

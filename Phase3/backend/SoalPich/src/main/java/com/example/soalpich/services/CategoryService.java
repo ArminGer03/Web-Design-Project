@@ -17,8 +17,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category addCategory(Category form){
-        return categoryRepository.save(form);
+    public Category addCategory(Category category){
+        category.setCreatedAt(LocalDateTime.now());
+        category.setUpdatedAt(LocalDateTime.now());
+        return categoryRepository.save(category);
     }
 
     public void deleteCategory(String id){

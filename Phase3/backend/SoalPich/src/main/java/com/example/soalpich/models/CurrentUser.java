@@ -1,16 +1,19 @@
 package com.example.soalpich.models;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.example.soalpich.models.User;
 
 public class CurrentUser {
+    private static User currentUser = new User();
 
-    public static String getUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
+    public static void set(User user) {
+        currentUser = user;
+    }
+
+    public static User get() {
+        return currentUser;
+    }
+
+    public static void clear() {
+        currentUser = null;
     }
 }

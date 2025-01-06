@@ -1,5 +1,3 @@
-// src/components/EditQuestion.js
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,9 +14,10 @@ function EditQuestion() {
         option4: '',
         correctOption: '1',
         difficulty: 'easy',
-        category: 'general',
+        category: '',
         relevantQuestions: '',
     });
+    const [categories, setCategories] = useState([]);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(true);
@@ -26,12 +25,23 @@ function EditQuestion() {
     const { question, option1, option2, option3, option4, correctOption, difficulty, category, relevantQuestions } = formData;
 
     useEffect(() => {
+        fetchCategories();
         fetchQuestion();
     }, []);
 
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get('/view-categories'); // Fetch all categories
+            setCategories(res.data);
+        } catch (err) {
+            console.error(err);
+            setError('Error fetching categories');
+        }
+    };
+
     const fetchQuestion = async () => {
         try {
-            const res = await axios.get(`/api/questions/${id}`);
+            const res = await axios.get(`/question/${id}`);
             const q = res.data;
             setFormData({
                 question: q.question,
@@ -41,7 +51,7 @@ function EditQuestion() {
                 option4: q.options[3],
                 correctOption: q.correctOption.toString(),
                 difficulty: q.difficulty,
-                category: q.category,
+                category: q.category.id, // Store only the category ID initially
                 relevantQuestions: q.relevantQuestions.join(', '),
             });
             setLoading(false);
@@ -61,24 +71,38 @@ function EditQuestion() {
         setError('');
         setSuccess('');
 
+        // Validate input
+        if (!question.trim() || !option1.trim() || !option2.trim() || !option3.trim() || !option4.trim() || !category) {
+            setError('Please fill in all required fields');
+            return;
+        }
+
+        // Find the full category object by ID
+        const selectedCategory = categories.find((cat) => cat.id === category);
+
+        if (!selectedCategory) {
+            setError('Invalid category selected');
+            return;
+        }
+
         // Prepare relevantQuestions array
         let relevantQ = [];
         if (relevantQuestions.trim()) {
-            relevantQ = relevantQuestions.split(',').map(id => id.trim());
-            // Optionally, validate ObjectId format
+            relevantQ = relevantQuestions.split(',').map((id) => id.trim());
         }
 
+        // Construct the updated question object
         const updatedQuestion = {
             question,
             options: [option1, option2, option3, option4],
             correctOption: parseInt(correctOption),
             difficulty,
-            category,
+            category: selectedCategory, // Full category object
             relevantQuestions: relevantQ,
         };
 
         try {
-            const res = await axios.put(`/api/questions/${id}`, updatedQuestion);
+            const res = await axios.put(`/edit-question/${id}`, updatedQuestion);
             setSuccess('Question updated successfully!');
             // Redirect to view questions after a delay
             setTimeout(() => navigate('/view-questions'), 2000);
@@ -145,9 +169,12 @@ function EditQuestion() {
                         <div className="input-box">
                             <label htmlFor="category">Category</label>
                             <select name="category" id="category" value={category} onChange={onChange} required>
-                                <option value="general">General Knowledge</option>
-                                <option value="history">History</option>
-                                <option value="science">Science</option>
+                                <option value="">-- Select Category --</option>
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
