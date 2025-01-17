@@ -5,41 +5,31 @@ import { Link, useParams } from 'react-router-dom';
 
 function ViewPlayerAnswers() {
     const [questions, setQuestions] = useState([]);
-    const [answeredQuestions, setAnsweredQuestions] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
-    const [filteredData, setFilteredData] = useState([]); // Array to hold filtered questions and answers
     const { id } = useParams(); // Category ID
 
     useEffect(() => {
         fetchInitialData();
     }, []);
 
-    useEffect(() => {
-        if (questions.length > 0 && id) {
-            filterAnsweredData();
-        }
-    }, [questions, id, answeredQuestions]);
+
 
     const fetchInitialData = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            const userRes = await axios.get('/api/auth/user', {
-                headers: { 'x-auth-token': token },
-            });
-
-            setCurrentUser(userRes.data);
-            setAnsweredQuestions(
-                userRes.data.answeredQuestions.map((question, index) => ({
-                    questionId: question,
-                    userAnswer: userRes.data.userAnswer[index],
-                }))
-            );
-
-            const questionRes = await axios.get('/api/questions?populate=category');
-            setQuestions(questionRes.data);
+            console.log("holla");
+        
+            const questionRes = await axios.get(`/answered-questions/${id}`);
+            const answerRes = await axios.get(`/user-answers/${id}`)
+            console.log(questionRes);
+            console.log(answerRes);
+            const c = questionRes.data.map((val, idx) => ({
+                question: val,
+                userAnswer: answerRes.data[idx]
+            }));
+            console.log(c);
+            setQuestions(c);
             setLoading(false);
         } catch (err) {
             console.error(err);
@@ -48,22 +38,6 @@ function ViewPlayerAnswers() {
         }
     };
 
-    const filterAnsweredData = () => {
-        // Filter questions based on category ID and answered questions
-        const filteredQuestions = questions.filter((q) =>
-            answeredQuestions.some((aq) => aq.questionId === q._id) && q.category._id === id
-        );
-
-        // Synchronize user answers with the filtered questions
-        const filteredAnswers = filteredQuestions.map((q) =>
-            answeredQuestions.find((aq) => aq.questionId === q._id)
-        );
-
-        setFilteredData(filteredQuestions.map((q, index) => ({
-            question: q,
-            userAnswer: filteredAnswers[index]?.userAnswer || null,
-        })));
-    };
 
     return (
         <main>
@@ -73,7 +47,7 @@ function ViewPlayerAnswers() {
                 {error && <div className="error-message">{error}</div>}
                 {!loading && !error && (
                     <div className="questions-list">
-                        {filteredData.map(({ question, userAnswer }) => {
+                        {questions.map(({ question, userAnswer }) => {
                             const userAnswerIndex = userAnswer - 1;
                             const isCorrect =
                                 userAnswerIndex === question.correctOption - 1;

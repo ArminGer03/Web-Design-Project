@@ -3,19 +3,24 @@ package com.example.soalpich.services;
 import com.example.soalpich.models.Category;
 import com.example.soalpich.models.CurrentUser;
 import com.example.soalpich.models.Question;
+import com.example.soalpich.models.User;
 import com.example.soalpich.repository.CategoryRepository;
 import com.example.soalpich.repository.QuestionRepository;
+import com.example.soalpich.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.Tuple;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public List<Question> getUserQuestions() {
@@ -62,5 +67,69 @@ public class QuestionService {
             return questionRepository.save(question);
         }
         return null;
+    }
+
+    public List<Question> getQuestionByQuestionCategory(String questionCategory){
+        List<Question> questions = questionRepository.findAll();
+        List<Question> answered_questions = CurrentUser.get().getAnsweredQuestions();
+        List<Question> filtered = new ArrayList<>();
+        for (Question question : questions) {
+            if (questionCategory.equals(question.getCategory().getId())) {
+                if (answered_questions == null || !answered_questions.contains(question)) {
+                    filtered.add(question);
+                }
+            }
+        }
+        return filtered;
+    }
+
+    public Question getRandomQuestion() {
+        List<Question> questions = questionRepository.findAll();
+        Random random = new Random();
+        int index = random.nextInt(questions.size());
+        return questions.get(index);
+    }
+
+    public boolean checkAnswer(String id, int userAnswer,  int point) {
+        User user = CurrentUser.get();
+        Question question = getQuestionById(id);
+
+        if (question == null) {
+            return false;
+        }
+
+        user.getAnsweredQuestions().add(question);
+        user.getUserAnswer().add(userAnswer);
+        if (userAnswer == question.getCorrectOption()){
+            user.setScore(user.getScore() + point);
+        }
+        userRepository.save(user);
+        return true;
+    }
+
+    public List<Question>  getAnsweredQuestions(String id) {
+        List<Question> questions = CurrentUser.get().getAnsweredQuestions();
+        List<Question> filtered = new ArrayList<>();
+        for (Question question : questions) {
+            if (Objects.equals(question.getCategory().getId(), id)) {
+                filtered.add(question);
+            }
+        }
+        return filtered;
+    }
+
+    public List<Integer> getUserAnswers(String id) {
+        List<Question> questions = CurrentUser.get().getAnsweredQuestions();
+        List<Integer> answered = CurrentUser.get().getUserAnswer();
+        List<Integer> filtered = new ArrayList<>();
+        if (answered.size() != questions.size()) {
+            return null;
+        }
+        for (int i = 0; i < questions.size(); i++) {
+            if (Objects.equals(questions.get(i).getCategory().getId(), id)) {
+                filtered.add(answered.get(i));
+            }
+        }
+        return filtered;
     }
 }

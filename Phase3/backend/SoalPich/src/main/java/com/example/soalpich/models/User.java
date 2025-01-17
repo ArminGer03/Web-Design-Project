@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "users")
@@ -28,6 +29,7 @@ public class User {
 
     private int score;
     private int correct;
+    private int rank;
 
     private List<Integer> userAnswer;
 
@@ -40,6 +42,18 @@ public class User {
         this.password = password;
         this.role = role;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public User(UserRequest userRequest) {
+        this.username = userRequest.getUsername();
+        this.email = userRequest.getEmail();
+        this.password = userRequest.getPassword();
+        this.role = userRequest.getRole();
+        this.createdAt = LocalDateTime.now();
+        this.answeredQuestions = new ArrayList<>();
+        this.userAnswer = new ArrayList<>();
+        this.score = 0;
+        this.correct = 0;
     }
 
     public String getId() {
@@ -136,6 +150,14 @@ public class User {
                 ", correct=" + correct +
                 ", userAnswer=" + userAnswer +
                 '}';
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }
 

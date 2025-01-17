@@ -15,11 +15,7 @@ function Leaderboard() {
     const fetchLeaderboard = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get('/api/auth/leaderboard', {
-                headers: { 'x-auth-token': token },
-            });
-
+            const res = await axios.get('/leaderboard');
             setLeaderboard(res.data);
             setLoading(false);
         } catch (err) {
@@ -43,7 +39,6 @@ function Leaderboard() {
                             <tr>
                                 <th>Rank</th>
                                 <th>Player</th>
-                                <th>Total Questions</th>
                                 <th>Correctly Answered</th>
                                 <th>Score</th>
                             </tr>
@@ -64,7 +59,6 @@ function Leaderboard() {
                                 >
                                     <td>{player.rank}</td>
                                     <td>{player.username}</td>
-                                    <td>{player.totalQuestions}</td>
                                     <td>{player.correct}</td>
                                     <td>{player.score}</td>
                                 </tr>

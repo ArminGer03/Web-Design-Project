@@ -15,7 +15,7 @@ function ViewPlayerAnswersCategory() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/api/categories'); // Using proxy
+            const res = await axios.get('/view-categories'); // Using proxy
             setCategories(res.data);
             setLoading(false);
         } catch (err) {
@@ -40,7 +40,7 @@ function ViewPlayerAnswersCategory() {
                                 <div className="question-header">
                                     <h3>{cat.name}</h3>
                                     <div className="question-actions">
-                                        <Link to={`/view-answered-questions/${cat._id}`}>
+                                        <Link to={`/view-answered-questions/${cat.id}`}>
                                             <button className="edit-btn">View Your Questions</button>
                                         </Link>
                                     </div>

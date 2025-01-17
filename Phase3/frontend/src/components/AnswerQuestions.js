@@ -5,7 +5,6 @@ import { Link, useParams } from 'react-router-dom';
 
 function AnswerQuestions() {
     const [questions, setQuestions] = useState([]);
-    const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [answeredQuestions, setAnsweredQuestions] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
     const [error, setError] = useState('');
@@ -18,24 +17,11 @@ function AnswerQuestions() {
         fetchInitialData();
     }, []);
 
-    useEffect(() => {
-        if (questions.length > 0 && id) {
-            filterQuestions();
-        }
-    }, [questions, id]);
 
     const fetchInitialData = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            const userRes = await axios.get('/api/auth/user', {
-                headers: { 'x-auth-token': token },
-            });
-
-            setCurrentUser(userRes.data);
-            setAnsweredQuestions(userRes.data.answeredQuestions || []);
-
-            const questionRes = await axios.get('/api/questions?populate=category');
+            const questionRes = await axios.get(`/answer-category/${id}`);
             setQuestions(questionRes.data);
             setLoading(false);
         } catch (err) {
@@ -45,13 +31,6 @@ function AnswerQuestions() {
         }
     };
 
-    const filterQuestions = () => {
-        const filtered = questions.filter(
-            (question) =>
-                question.category._id === id && !answeredQuestions.includes(question._id)
-        );
-        setFilteredQuestions(filtered);
-    };
 
     const handleOptionChange = (questionId, option) => {
         setSelectedAnswers((prev) => ({
@@ -74,7 +53,7 @@ function AnswerQuestions() {
             return;
         }
     
-        const question = filteredQuestions.find((q) => q._id === questionId);
+        const question = questions.find((q) => q.id === questionId);
     
         if (!question) {
             console.error('Question not found.');
@@ -99,8 +78,6 @@ function AnswerQuestions() {
         }));
     
         try {
-            const token = localStorage.getItem('token');
-    
             // Include `userAnswer` in the payload
             const updateData = {
                 questionId,
@@ -108,19 +85,10 @@ function AnswerQuestions() {
                 userAnswer: question.options.indexOf(selectedAnswer) + 1, // Record the user's answer
             };
     
-            await axios.post('/api/auth/update-score', updateData, {
-                headers: { 'x-auth-token': token },
-            });
+            await axios.post('/update-score', updateData);
     
             setAnsweredQuestions((prev) => [...prev, questionId]);
     
-            if (isCorrect) {
-                setCurrentUser((prev) => ({
-                    ...prev,
-                    score: prev.score + points,
-                    correct: (prev.correct || 0) + 1, // Increment correct count in UI
-                }));
-            }
         } catch (err) {
             console.error('Error updating score:', err);
             setError('Error updating score');
@@ -137,8 +105,8 @@ function AnswerQuestions() {
                 {error && <div className="error-message">{error}</div>}
                 {!loading && !error && (
                     <div className="questions-list">
-                        {filteredQuestions.map((q) => (
-                            <div className="question-item" key={q._id}>
+                        {questions.map((q) => (
+                            <div className="question-item" key={q.id}>
                                 <div className="question-header">
                                     <h3>{q.question}</h3>
                                 </div>
@@ -146,17 +114,17 @@ function AnswerQuestions() {
 
                                 <form
                                     className="options-list"
-                                    onSubmit={(e) => handleAnswerSubmit(e, q._id)}
+                                    onSubmit={(e) => handleAnswerSubmit(e, q.id)}
                                 >
                                     {q.options.map((opt, index) => (
                                         <div key={index} className="option-item">
                                             <label>
                                                 <input
                                                     type="radio"
-                                                    name={`question-${q._id}`}
+                                                    name={`question-${q.id}`}
                                                     value={opt}
-                                                    onChange={() => handleOptionChange(q._id, opt)}
-                                                    disabled={answeredQuestions.includes(q._id)}
+                                                    onChange={() => handleOptionChange(q.id, opt)}
+                                                    disabled={answeredQuestions.includes(q.id)}
                                                 />
                                                 <strong>Option {index + 1}:</strong> {opt}
                                             </label>
@@ -165,24 +133,24 @@ function AnswerQuestions() {
                                     <button
                                         type="submit"
                                         className="submit-answer-btn"
-                                        disabled={answeredQuestions.includes(q._id)}
+                                        disabled={answeredQuestions.includes(q.id)}
                                     >
                                         Submit Answer
                                     </button>
                                 </form>
 
-                                {feedback[q._id] && (
+                                {feedback[q.id] && (
                                     <div
                                         className="feedback"
                                         style={{
-                                            color: feedback[q._id].isCorrect ? 'green' : 'red',
+                                            color: feedback[q.id].isCorrect ? 'green' : 'red',
                                         }}
                                     >
                                         <p>
-                                            {feedback[q._id].isCorrect
+                                            {feedback[q.id].isCorrect
                                                 ? 'Correct!'
                                                 : 'Incorrect.'}{' '}
-                                            The correct answer is: {feedback[q._id].correctOption}
+                                            The correct answer is: {feedback[q.id].correctOption}
                                         </p>
                                     </div>
                                 )}

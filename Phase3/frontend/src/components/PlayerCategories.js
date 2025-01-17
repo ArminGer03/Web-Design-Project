@@ -15,7 +15,7 @@ function PlayerCategories() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/api/categories'); // Using proxy
+            const res = await axios.get('/view-categories'); // Using proxy
             setCategories(res.data);
             setLoading(false);
         } catch (err) {
@@ -36,11 +36,11 @@ function PlayerCategories() {
                 {!loading && !error && (
                     <div className="questions-list">
                         {categories.map((cat) => (
-                            <div className="question-item" key={cat._id}>
+                            <div className="question-item" key={cat.id}>
                                 <div className="question-header">
                                     <h3>{cat.name}</h3>
                                     <div className="question-actions">
-                                        <Link to={`/answer-questions/${cat._id}`}>
+                                        <Link to={`/answer-questions/${cat.id}`}>
                                             <button className="edit-btn">Answer some Questions!</button>
                                         </Link>
                                     </div>

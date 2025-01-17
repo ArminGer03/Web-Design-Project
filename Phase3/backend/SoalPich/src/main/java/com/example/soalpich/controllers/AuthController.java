@@ -2,6 +2,7 @@ package com.example.soalpich.controllers;
 
 import com.example.soalpich.models.CurrentUser;
 import com.example.soalpich.models.User;
+import com.example.soalpich.models.UserRequest;
 import com.example.soalpich.repository.UserRepository;
 import com.example.soalpich.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+    public ResponseEntity<String> signup(@RequestBody UserRequest userRequest) {
+        Optional<User> existingUser = userRepository.findByUsername(userRequest.getUsername());
         if (existingUser.isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
 
+        User user = new User(userRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");

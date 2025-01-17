@@ -26,7 +26,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("http://localhost")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Authorization", "Content-Type")
                 .allowCredentials(true);
@@ -39,9 +39,13 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/login", "/signup", "/view-categories", "/create-category", "/delete-category/{id}",
+                        .requestMatchers("/login", "/signup", "/view-categories",
+                                "/create-category", "/delete-category/{id}",
                                 "/edit-category/{id}", "/category/{id}", "/view-questions", "/create-question",
-                                "/delete-question/{id}", "/edit-question/{id}", "/question/{id}").permitAll()
+                                "/delete-question/{id}", "/edit-question/{id}", "/question/{id}",
+                                "/answer-category/{cat_id}", "/answer-random", "/update-score",
+                                "/answered-questions/{cat_id}", "/user-answers/{cat_id}",
+                                "/leaderboard").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -4,9 +4,7 @@ import ThemeSwitch from './ThemeSwitch';
 import { Link } from 'react-router-dom';
 
 function RandomQuestion() {
-    const [questions, setQuestions] = useState([]);
     const [answeredQuestions, setAnsweredQuestions] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [randomQuestion, setRandomQuestion] = useState(null);
@@ -17,25 +15,11 @@ function RandomQuestion() {
         fetchInitialData();
     }, []);
 
-    useEffect(() => {
-        if (questions.length > 0) {
-            selectRandomQuestion();
-        }
-    }, [questions]);
-
     const fetchInitialData = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            const userRes = await axios.get('/api/auth/user', {
-                headers: { 'x-auth-token': token },
-            });
-
-            setCurrentUser(userRes.data);
-            setAnsweredQuestions(userRes.data.answeredQuestions || []);
-
-            const questionRes = await axios.get('/api/questions?populate=category');
-            setQuestions(questionRes.data);
+            const questionRes = await axios.get('/answer-random');
+            setRandomQuestion(questionRes.data);
             setLoading(false);
         } catch (err) {
             console.error(err);
@@ -44,18 +28,7 @@ function RandomQuestion() {
         }
     };
 
-    const selectRandomQuestion = () => {
-        const unanswered = questions.filter(
-            (question) => !answeredQuestions.includes(question._id)
-        );
 
-        if (unanswered.length > 0) {
-            const randomIndex = Math.floor(Math.random() * unanswered.length);
-            setRandomQuestion(unanswered[randomIndex]);
-        } else {
-            setRandomQuestion(null); // No unanswered questions left
-        }
-    };
 
     const handleOptionChange = (option) => {
         setSelectedAnswer(option);
@@ -86,11 +59,9 @@ function RandomQuestion() {
         });
     
         try {
-            const token = localStorage.getItem('token');
-    
             // Update score, `correct`, and userAnswer fields
             const updateData = {
-                questionId: question._id,
+                questionId: question.id,
                 points,
                 userAnswer: question.options.indexOf(selectedAnswer) + 1, // Record user's answer as its index + 1
             };
@@ -98,19 +69,11 @@ function RandomQuestion() {
                 updateData.incrementCorrect = 1; // Indicate `correct` increment
             }
     
-            await axios.post('/api/auth/update-score', updateData, {
-                headers: { 'x-auth-token': token },
-            });
+            await axios.post('/update-score', updateData);
     
             setAnsweredQuestions((prev) => [...prev, question._id]);
     
-            if (isCorrect) {
-                setCurrentUser((prev) => ({
-                    ...prev,
-                    score: prev.score + points,
-                    correct: (prev.correct || 0) + 1, // Increment `correct` count in UI
-                }));
-            }
+            
         } catch (err) {
             console.error('Error updating score:', err);
             setError('Error updating score');
