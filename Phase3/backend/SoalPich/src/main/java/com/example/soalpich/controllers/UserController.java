@@ -1,6 +1,7 @@
 package com.example.soalpich.controllers;
 
 import com.example.soalpich.models.business.User;
+import com.example.soalpich.models.dto.UserDTO;
 import com.example.soalpich.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/leaderboard")
-    public ResponseEntity<List<User>> getLeaderboard() {
-        List<User> users = userService.getAndRankAllUsers();
+    public ResponseEntity<List<UserDTO>> getLeaderboard() {
+        List<UserDTO> users = userService.getLeaderBoard();
         if (users == null) {
             return ResponseEntity.noContent().build();
         }

@@ -1,10 +1,12 @@
 package com.example.soalpich.services;
 
 import com.example.soalpich.models.business.User;
+import com.example.soalpich.models.dto.UserDTO;
 import com.example.soalpich.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class UserService {
         users.sort(new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {
-                return Integer.compare(u1.getScore(), u2.getScore());
+                return Integer.compare(-u1.getScore(), -u2.getScore());
             }
         });
 
@@ -27,5 +29,18 @@ public class UserService {
         }
 
         return users;
+    }
+
+    public List<UserDTO> getLeaderBoard() {
+        List<User> users = getAndRankAllUsers();
+        if (users == null) {
+            return null;
+        }
+
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (User user : users) {
+            userDTOS.add(new UserDTO(user));
+        }
+        return userDTOS;
     }
 }
