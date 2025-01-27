@@ -1,4 +1,4 @@
-package com.example.soalpich.models;
+package com.example.soalpich.models.business;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;

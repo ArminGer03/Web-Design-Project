@@ -1,6 +1,4 @@
-package com.example.soalpich.models;
-
-import com.example.soalpich.models.User;
+package com.example.soalpich.models.business;
 
 public class CurrentUser {
     private static User currentUser = new User();

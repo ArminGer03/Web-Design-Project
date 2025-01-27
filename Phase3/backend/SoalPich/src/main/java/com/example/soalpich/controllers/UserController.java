@@ -1,6 +1,6 @@
 package com.example.soalpich.controllers;
 
-import com.example.soalpich.models.User;
+import com.example.soalpich.models.business.User;
 import com.example.soalpich.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.soalpich.models;
+package com.example.soalpich.models.dto;
 
 import java.time.LocalDateTime;
 

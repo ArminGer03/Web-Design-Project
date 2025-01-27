@@ -1,8 +1,8 @@
 package com.example.soalpich.controllers;
 
-import com.example.soalpich.models.CurrentUser;
-import com.example.soalpich.models.User;
-import com.example.soalpich.models.UserRequest;
+import com.example.soalpich.models.business.CurrentUser;
+import com.example.soalpich.models.business.User;
+import com.example.soalpich.models.dto.UserRequest;
 import com.example.soalpich.repository.UserRepository;
 import com.example.soalpich.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.example.soalpich.models.LoginRequest;
+import com.example.soalpich.models.dto.LoginRequest;
 
 
 import java.util.Optional;

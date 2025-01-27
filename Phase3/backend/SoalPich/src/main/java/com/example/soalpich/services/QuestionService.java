@@ -1,15 +1,12 @@
 package com.example.soalpich.services;
 
-import com.example.soalpich.models.Category;
-import com.example.soalpich.models.CurrentUser;
-import com.example.soalpich.models.Question;
-import com.example.soalpich.models.User;
-import com.example.soalpich.repository.CategoryRepository;
+import com.example.soalpich.models.business.CurrentUser;
+import com.example.soalpich.models.business.Question;
+import com.example.soalpich.models.business.User;
 import com.example.soalpich.repository.QuestionRepository;
 import com.example.soalpich.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.util.Tuple;
 
 import java.time.LocalDateTime;
 import java.util.*;

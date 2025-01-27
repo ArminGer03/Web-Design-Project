@@ -1,6 +1,6 @@
 package com.example.soalpich.services;
 
-import com.example.soalpich.models.Category;
+import com.example.soalpich.models.business.Category;
 import com.example.soalpich.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

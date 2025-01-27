@@ -1,11 +1,10 @@
 package com.example.soalpich.services;
 
-import com.example.soalpich.models.User;
+import com.example.soalpich.models.business.User;
 import com.example.soalpich.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

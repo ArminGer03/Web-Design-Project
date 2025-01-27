@@ -2,7 +2,7 @@ package com.example.soalpich.services;
 
 
 
-import com.example.soalpich.models.User;
+import com.example.soalpich.models.business.User;
 import com.example.soalpich.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

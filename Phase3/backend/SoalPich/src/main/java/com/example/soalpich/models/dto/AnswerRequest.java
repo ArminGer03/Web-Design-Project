@@ -1,4 +1,4 @@
-package com.example.soalpich.models;
+package com.example.soalpich.models.dto;
 
 public class AnswerRequest {
     private String questionId;

@@ -1,7 +1,7 @@
 package com.example.soalpich.repository;
 
 
-import com.example.soalpich.models.User;
+import com.example.soalpich.models.business.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
