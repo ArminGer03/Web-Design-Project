@@ -6,6 +6,8 @@ import com.example.soalpich.models.business.User;
 import com.example.soalpich.repository.QuestionRepository;
 import com.example.soalpich.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,40 +16,43 @@ import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
+
     @Autowired
     private QuestionRepository questionRepository;
+
     @Autowired
     private UserRepository userRepository;
 
-
+    @Cacheable(value = "questions", key = "#root.methodName")
     public List<Question> getUserQuestions() {
         String currentUserId = CurrentUser.get().getId();
         List<Question> questions = questionRepository.findAll();
         return questions.stream()
                 .filter(question -> question.getCreator().getId().equals(currentUserId))
                 .collect(Collectors.toList());
-
     }
 
-    public Question addQuestion(Question question){
+    @CacheEvict(value = "questions", allEntries = true)
+    public Question addQuestion(Question question) {
         question.setCreatedAt(LocalDateTime.now());
         question.setUpdatedAt(LocalDateTime.now());
         question.setCreator(CurrentUser.get());
         return questionRepository.save(question);
     }
 
-    public void deleteQuestion(String id){
+    @CacheEvict(value = "questions", allEntries = true)
+    public void deleteQuestion(String id) {
         questionRepository.deleteById(id);
     }
 
-
+    @Cacheable(value = "question", key = "#id")
     public Question getQuestionById(String id) {
         Optional<Question> questionOpt = questionRepository.findById(id);
         return questionOpt.orElse(null);
     }
 
-
-    public Question updateQuestion(String id, Question updatedQuestion){
+    @CacheEvict(value = {"questions", "question"}, key = "#id", allEntries = true)
+    public Question updateQuestion(String id, Question updatedQuestion) {
         Question question = getQuestionById(id);
         if (question != null) {
             question.setQuestion(updatedQuestion.getQuestion());
@@ -61,7 +66,8 @@ public class QuestionService {
         return null;
     }
 
-    public List<Question> getQuestionByQuestionCategory(String questionCategory){
+    @Cacheable(value = "category-questions", key = "#questionCategory")
+    public List<Question> getQuestionByQuestionCategory(String questionCategory) {
         List<Question> questions = questionRepository.findAll();
         List<Question> answered_questions = CurrentUser.get().getAnsweredQuestions();
         List<Question> filtered = new ArrayList<>();
@@ -75,14 +81,17 @@ public class QuestionService {
         return filtered;
     }
 
+    @Cacheable(value = "random-question")
     public Question getRandomQuestion() {
         List<Question> questions = questionRepository.findAll();
+        if (questions.isEmpty()) return null;
         Random random = new Random();
         int index = random.nextInt(questions.size());
         return questions.get(index);
     }
 
-    public boolean checkAnswer(String id, int userAnswer,  int point) {
+    @CacheEvict(value = "questions", allEntries = true)
+    public boolean checkAnswer(String id, int userAnswer, int point) {
         User user = CurrentUser.get();
         Question question = getQuestionById(id);
 
@@ -92,14 +101,15 @@ public class QuestionService {
 
         user.getAnsweredQuestions().add(question);
         user.getUserAnswer().add(userAnswer);
-        if (userAnswer == question.getCorrectOption()){
+        if (userAnswer == question.getCorrectOption()) {
             user.setScore(user.getScore() + point);
         }
         userRepository.save(user);
         return true;
     }
 
-    public List<Question>  getAnsweredQuestions(String id) {
+    @Cacheable(value = "answered-questions", key = "#id")
+    public List<Question> getAnsweredQuestions(String id) {
         List<Question> questions = CurrentUser.get().getAnsweredQuestions();
         List<Question> filtered = new ArrayList<>();
         for (Question question : questions) {
@@ -110,6 +120,7 @@ public class QuestionService {
         return filtered;
     }
 
+    @Cacheable(value = "user-answers", key = "#id")
     public List<Integer> getUserAnswers(String id) {
         List<Question> questions = CurrentUser.get().getAnsweredQuestions();
         List<Integer> answered = CurrentUser.get().getUserAnswer();
