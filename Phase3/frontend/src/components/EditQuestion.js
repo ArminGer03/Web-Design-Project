@@ -51,8 +51,10 @@ function EditQuestion() {
                 option4: q.options[3],
                 correctOption: q.correctOption.toString(),
                 difficulty: q.difficulty,
-                category: q.category.id, // Store only the category ID initially
-                relevantQuestions: q.relevantQuestions.join(', '),
+                category: q.category.id,
+                relevantQuestions: q.relevantQuestions
+                    ? q.relevantQuestions.join(', ')
+                    : '', 
             });
             setLoading(false);
         } catch (err) {
@@ -61,6 +63,7 @@ function EditQuestion() {
             setLoading(false);
         }
     };
+    
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

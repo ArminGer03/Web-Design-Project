@@ -41,14 +41,9 @@ public class QuestionService {
     }
 
 
-    public Question getQuestionById(String id){
-        List<Question> questions = questionRepository.findAll();
-        for (Question question : questions) {
-            if (Objects.equals(question.getId(), id)) {
-                return question;
-            }
-        }
-        return null;
+    public Question getQuestionById(String id) {
+        Optional<Question> questionOpt = questionRepository.findById(id);
+        return questionOpt.orElse(null);
     }
 
 
