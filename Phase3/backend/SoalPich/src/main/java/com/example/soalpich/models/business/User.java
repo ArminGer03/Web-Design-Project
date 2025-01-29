@@ -28,6 +28,9 @@ public class User {
     @DBRef
     private List<Question> answeredQuestions;
 
+    @DBRef
+    private List<User> following = new ArrayList<>();
+
     private int score;
     private int correct;
     private int rank;
@@ -159,6 +162,25 @@ public class User {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public void followUser(User user) {
+        if (!following.contains(user)) {
+            following.add(user);
+        }
+    }
+
+    public void unfollowUser(User user) {
+        following.remove(user);
     }
 }
 

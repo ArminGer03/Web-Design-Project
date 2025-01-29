@@ -2,17 +2,23 @@ package com.example.soalpich.models.dto;
 
 import com.example.soalpich.models.business.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDTO {
     private String username;
     private int score;
     private int correct;
     private int rank;
 
+    private List<User> following = new ArrayList<>();
+
     public UserDTO(User user) {
         this.username = user.getUsername();
         this.score = user.getScore();
         this.correct = user.getCorrect();
         this.rank = user.getRank();
+        this.following = user.getFollowing();
     }
 
     public String getUsername() {
@@ -45,5 +51,13 @@ public class UserDTO {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 }

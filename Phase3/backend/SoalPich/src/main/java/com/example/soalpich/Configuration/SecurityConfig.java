@@ -58,7 +58,10 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 "/update-score",
                                 "/answered-questions/**",
                                 "/user-answers/**",
-                                "/leaderboard"
+                                "/leaderboard",
+                                "/view-following",
+                                "/follow-user",
+                                "/unfollow-user"
                         ).permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()

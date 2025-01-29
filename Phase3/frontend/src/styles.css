@@ -616,3 +616,65 @@ button:hover {
     font-weight: bold;
     color: #cd7f32; /* Bronze color */
 }
+
+
+/* Follow User Section */
+.follow-user-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Input Field - Full Width */
+.input-field {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    margin-top: 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px; /* Limit maximum width */
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.input-field:focus {
+    border-color: #007BFF;
+}
+
+/* Follow Button */
+.follow-button {
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 500px; /* Match input width */
+    transition: background-color 0.3s;
+}
+
+.follow-button:hover {
+    background-color: #0056b3;
+}
+
+/* Success and Error Messages */
+.success-message, .error-message {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}
