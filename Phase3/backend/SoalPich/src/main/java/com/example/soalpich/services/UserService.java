@@ -39,7 +39,9 @@ public class UserService {
 
         List<UserDTO> userDTOS = new ArrayList<>();
         for (User user : users) {
-            userDTOS.add(new UserDTO(user));
+            if (!user.getRole().equals("designer")) {
+                userDTOS.add(new UserDTO(user));
+            }
         }
         return userDTOS;
     }

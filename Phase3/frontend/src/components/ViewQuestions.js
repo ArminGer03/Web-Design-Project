@@ -76,7 +76,7 @@ function ViewQuestions() {
                                 </p>
                                 <p className="question-details">
                                     <strong>Difficulty:</strong> {q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1)} |{' '}
-                                    <strong>Category:</strong> {q.category.name}
+                                    <strong>Category:</strong> {q.category?.name ?? 'No Category Assigned'}
                                 </p>
                             </div>
                         ))}

@@ -43,7 +43,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/delete-question/{id}")
-    public void deleteCategory(@PathVariable String id){
+    public void deleteQuestion(@PathVariable String id){
         questionService.deleteQuestion(id);
     }
 
