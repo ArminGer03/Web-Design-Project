@@ -135,4 +135,15 @@ public class QuestionService {
         }
         return filtered;
     }
+
+    public List<Question> getQuestionsByCreator(String creatorUsername) {
+        List<Question> questions = questionRepository.findAll();
+        List<Question> filtered = new ArrayList<>();
+        for (Question question : questions) {
+            if (Objects.equals(question.getCreator().getUsername(), creatorUsername)) {
+                filtered.add(question);
+            }
+        }
+        return filtered;
+    }
 }

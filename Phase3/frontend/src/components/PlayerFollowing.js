@@ -93,7 +93,7 @@ function PlayerFollowing() {
                             <div className="question-header">
                                 <h3>{des.username}</h3>
                                 <div className="question-actions">
-                                    <Link to={`/player-feed/${des.id}`}>
+                                    <Link to={`/player-feed/${des.username}`}>
                                         <button className="edit-btn">Feed</button>
                                     </Link>
                                     <button 
@@ -110,7 +110,7 @@ function PlayerFollowing() {
             )}
 
 
-                 <div className="follow-user-section">
+                <div className="follow-user-section">
                     <input
                         type="text"
                         placeholder="Enter username to follow"

@@ -4,6 +4,7 @@ import com.example.soalpich.models.dto.AnswerRequest;
 import com.example.soalpich.models.business.Question;
 import com.example.soalpich.models.dto.QuestionDTO;
 import com.example.soalpich.services.QuestionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -111,5 +112,10 @@ public class QuestionController {
             return ResponseEntity.ok(res);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/player-feed/{username}")
+    public ResponseEntity<List<QuestionDTO>> getPlayerFeed(@PathVariable String username){
+        return new ResponseEntity<>(convertToDTO(questionService.getQuestionsByCreator(username)), HttpStatus.OK);
     }
 }

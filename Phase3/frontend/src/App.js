@@ -22,6 +22,7 @@ import PlayerFollowing from './components/PlayerFollowing';
 import AnswerQuestions from './components/AnswerQuestions';
 import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import PlayerFeed from './components/PlayerFeed';
 
 
 function App() {
@@ -171,6 +172,14 @@ function App() {
                                 <ProtectedRoute>
                                     <Leaderboard />
                                 </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/player-feed/:id"
+                            element={
+                                
+                                    <PlayerFeed />
+                                
                             }
                         />
 
