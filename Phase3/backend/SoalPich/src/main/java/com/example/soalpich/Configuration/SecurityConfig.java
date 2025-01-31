@@ -72,3 +72,57 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 }
+
+
+//@Configuration
+//@EnableWebSecurity
+//public class SecurityConfig implements WebMvcConfigurer {
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    // CORS config
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:3000")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                .allowedHeaders("Authorization", "Content-Type")
+//                .allowCredentials(true);
+//    }
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .cors(withDefaults()) // applies CORS config
+//                .csrf(csrf -> csrf.disable()) // stateless -> disable CSRF
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(
+//                                "/login",
+//                                "/signup",
+//                                "/view-categories",
+//                                "/create-category",
+//                                // ... your other endpoints ...
+//                                "/player-feed/**"
+//                        ).permitAll()
+//                        // any other request requires authentication
+//                        .anyRequest().authenticated()
+//                )
+//
+//                // The addition of OAuth2 login
+//                .oauth2Login(oauth2 -> oauth2
+//                                // optionally customize endpoints, success handler, failure handler, etc.
+//                                .loginPage("/oauth2/authorization/google")
+//                        // The line above is only if you have a custom flow or want to specify a custom endpoint
+//                        // otherwise you can just rely on the defaults
+//                );
+//
+//        // If you also want to use the OAuth2 “client” capabilities (e.g., to call external APIs on behalf of the user):
+//        // .oauth2Client(Customizer.withDefaults());
+//
+//        return http.build();
+//    }
+//}
